@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//auto format Ctrl + K , Ctrl + D
+//auto format Ctrl + K , Ctrl + D   Για αυτόματη αντιστοίχηση.
 namespace Normalization
 {
     /// <summary>
