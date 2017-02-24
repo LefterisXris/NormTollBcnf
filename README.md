@@ -1,4 +1,5 @@
 # NormToolBcnf
+![Flyme logo](N.jpg) <br/><br/>
 ### My graduation thesis <br/><br/>
 
 ###Theme: web application for Normalization with BCNF.<br/>
