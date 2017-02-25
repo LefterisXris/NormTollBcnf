@@ -5,6 +5,7 @@ using System.Web;
 
 // Ctrl + M + O collaps all.  
 // Ctrl + M + L expands all.
+//auto format Ctrl + K , Ctrl + D   Για αυτόματη αντιστοίχηση.
 
 namespace Normalization
 {
