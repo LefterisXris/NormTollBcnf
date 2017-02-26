@@ -94,6 +94,24 @@ namespace BCNF_Web_App {
         protected global::System.Web.UI.WebControls.ImageButton ImageButton8;
         
         /// <summary>
+        /// result_tb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox result_tb;
+        
+        /// <summary>
+        /// input_tb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox input_tb;
+        
+        /// <summary>
         /// Label1 control.
         /// </summary>
         /// <remarks>

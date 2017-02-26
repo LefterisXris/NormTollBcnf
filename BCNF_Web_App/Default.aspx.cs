@@ -55,7 +55,16 @@ namespace BCNF_Web_App
             Label2.Text = fd2.ToString();
             Label3.Text = fd3.ToString();
 
+            result_tb.Text = "";
 
+        }
+
+
+        protected void AddAttributeBtnClick(object sender, ImageClickEventArgs e)
+        {
+            //Button clickedButton = (Button)/*sender*/;
+            result_tb.Text += input_tb.Text;
+            result_tb.Text += ", ";
         }
     }
 }

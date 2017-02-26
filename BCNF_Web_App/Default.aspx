@@ -22,28 +22,19 @@
             <p>Resize your browser window to see the magic...</p>
 
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-2 main_buttons">
-                    <a href="#" class="round green rd">Αρχείο<span class="round">Λειτουργίες όπως: Νέο, Άνοιγμα, Έξοδος κλπ.</span></a>
-                    <%--<asp:Button class="main_btns" ID="Button1" runat="server" Text="Αρχείο" />--%>
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2 main_buttons">
-                    <a href="#" class="round red rd">Κανονικοποίηση<span class="round">Θα έχει Εγκλυσμό, Διάσπαση, Κλειδιά, Σταδική.</span></a>
-                    <%--<asp:Button class="main_btns" ID="Button2" runat="server" Text="Κανονικοποίηση" />--%>
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2 main_buttons">
-                    <a href="#" class="round yellow rd">Το πρόγραμμα<span class="round">Ρυθμίσεις, οδηγίες, credits.</span></a>
-                    <%--<asp:Button class="main_btns" ID="Button3" runat="server" Text="Το πρόγραμμα" />--%>
-                </div>
+                <ul>
+                    <li><a href="#" class="round green rd">Αρχείο<span class="round">Άνοιγμα, αποθήκευση κλπ.</span></a></li>
+                    <li><a href="#" class="round red rd">Κανονικοποίηση<span class="round">Εγκλεισμός, κλειδιά, σταδιακή διάσπαση κλπ. </span></a></li>
+                    <li><a href="#" class="round yellow rd">Πληροφορίες<span class="round">Πληροφορίες κλπ.</span></a></li>
+                </ul>
             </div>
 
             <div class="row">
                 <div class="col-md-1">
                     <div class="column-buttons">
-                        <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Images/new.ico" />
+                        <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Images/new.ico" OnClick="AddAttributeBtnClick" />
                     </div>
+                    
                     <div class="column-buttons">
                         <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/Images/open.ico" />
                     </div>
@@ -70,6 +61,10 @@
                 <div class="col-md-11" style="background-color: pink;">
                 </div>
             </div>
+
+            <asp:TextBox ID="result_tb" runat="server" Enabled="False"></asp:TextBox>
+            <asp:TextBox ID="input_tb" runat="server" Text="Write an attribute"></asp:TextBox>
+
         </div>
 
 
@@ -77,9 +72,9 @@
 
 
         <ul>
-            <li><a href="#" class="round green rd">Login<span class="round">That is, if you already have an account.</span></a></li>
-            <li><a href="#" class="round red rd">Sign Up<span class="round">But only if you really, really want to. </span></a></li>
-            <li><a href="#" class="round yellow rd">Demo<span class="round">Take a look. This product is totally rad!</span></a></li>
+            <li class="left_nav"><a href="#" class="round green rd">Login<span class="round">That is, if you already have an account.</span></a></li>
+            <li class="left_nav"><a href="#" class="round red rd">Sign Up<span class="round">But only if you really, really want to. </span></a></li>
+            <li class="left_nav"><a href="#" class="round yellow rd">Demo<span class="round">Take a look. This product is totally rad!</span></a></li>
         </ul>
 
 
