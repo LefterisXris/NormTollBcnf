@@ -139,6 +139,7 @@
             <asp:Label ID="Label3" runat="server" Text="Label"></asp:Label>
 
         </div>
+        <asp:Button ID="Button1" runat="server" Text="Button" PostBackUrl="~/WebForm1.aspx" />
     </form>
 </body>
 </html>

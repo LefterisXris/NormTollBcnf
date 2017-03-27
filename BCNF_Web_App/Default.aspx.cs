@@ -10,6 +10,7 @@ namespace BCNF_Web_App
 {
     public partial class Default : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -77,7 +78,15 @@ namespace BCNF_Web_App
             //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Only alert Message');", true);
 
             Session["NewSchemaName"] = tbxNewSchemaName.Text.ToString();
-            Server.Transfer("Create_Schema.aspx", true);
+            try
+            {
+                Server.Transfer("Create_Schema.aspx", true);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpException("blabla");
+            }
+            
 
             
         }

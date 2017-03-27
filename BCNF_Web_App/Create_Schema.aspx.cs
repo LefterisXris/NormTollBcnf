@@ -4,11 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Normalization;
 
 namespace BCNF_Web_App
 {
     public partial class Create_Schema : System.Web.UI.Page
     {
+        private List<Attr> attrListLeft = new List<Attr>();
+        private List<Attr> attrListRight = new List<Attr>();
+        private List<FD> fdList = new List<FD>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string name = (string)(Session["NewSchemaName"]);
@@ -33,7 +38,8 @@ namespace BCNF_Web_App
             }
         }
 
-        protected void btnNewAttrSchema(Object sender, EventArgs e)
+
+        protected void btnNewAttrClick(Object sender, EventArgs e)
         {
             lblAttrName.Text = tbxNewAttrName.Text.ToString();
             AttrList.Items.Add(lblAttrName.Text);
@@ -41,23 +47,12 @@ namespace BCNF_Web_App
             AtrrCheckBoxList1.Items.Add(lblAttrName.Text);
             AtrrCheckBoxList2.Items.Add(lblAttrName.Text);
             tbxNewAttrName.Text = "";
+           
         }
 
-        protected void AtrrCheckBoxList1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lblOrizouses.Visible = true;
-            lblOrizouses.Text += "";
+        
 
-            lblOrizouses.Text += AtrrCheckBoxList1.SelectedValue.ToString();
-        }
-        protected void AtrrCheckBoxList2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lblEksartimenes.Visible = true;
-            lblEksartimenes.Text += "";
-            lblEksartimenes.Text += AtrrCheckBoxList2.SelectedValue.ToString();
-        }
-
-        protected void btnNewFD(object sender, EventArgs e)
+        protected void btnNewFDClick(object sender, EventArgs e)
         {
 
             string FD = "";

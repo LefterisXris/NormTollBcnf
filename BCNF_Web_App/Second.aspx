@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Create_Schema.aspx.cs" Inherits="BCNF_Web_App.Create_Schema" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Second.aspx.cs" Inherits="BCNF_Web_App.Second" %>
 
 <!DOCTYPE html>
 
@@ -10,33 +10,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-    <%--<link href="Default.css" rel="stylesheet" type="text/css" />--%>
 </head>
-
 <body>
     <form id="form1" runat="server">
-         
-        <div class="container">
-            <div class="page-header">
-                <h1> Νέο σχήμα <asp:Label ID="lblSchemaName" runat="server" Text=""></asp:Label> <small> γνωρίσματα και συναρτησιακές εξαρτήσεις. </small></h1>
-            </div>
+    <div class="container">
+        <div class ="page-header">
+            <h1> Νέο σχήμα: <asp:Label ID="lblSchemaName" runat="server" Text=""></asp:Label> <small> γνωρίσματα κια συναρτησιακές εξαρτήσεις. </small> </h1>
+        </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <p> Γνωρίσματα </p>                 
-                    
-                    <asp:ListBox ID="AttrList" runat="server" Width="100%" Rows="10"></asp:ListBox>
+        <div class="row">
+            <div class="col-md-6">
+                <p> Γνωρίσματα </p>
 
-                    <div style="text-align: right; width: 100%;">
-                        <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalNewAttribute">+</button>
-                        <asp:Button  class="btn btn-info btn-lg" ID="Button2" runat="server" Text="-" OnClick="deleteAttr" />
-                    </div>  
+                <asp:ListBox ID="lboxAttr" runat="server" Rows="10" Width="100%"></asp:ListBox>
+                <div style="text-align: right; width: 100%;">
+                    <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalNewAttribute">+</button>
+                    <asp:Button  class="btn btn-info btn-lg" ID="Button2" runat="server" Text="-" OnClick="deleteAttr" />
+                </div>
 
-                    <asp:Label ID="lblAttrName" runat="server" Visible="False"></asp:Label>
-
-                  <!-- Modal νέο γνώρισμα-->
+                <!-- Modal νέο γνώρισμα-->
                   <div class="modal fade" id="modalNewAttribute" role="dialog">
                     <div class="modal-dialog">
     
@@ -62,20 +54,21 @@
                       </div>
       
                     </div>
-                  </div>
+                  </div> <%--Modal--%>
 
+            </div>
+
+            <div class="col-md-6">
+                <p> Συναρτησιακές εξαρτήσεις </p>
+
+                <asp:ListBox ID="lboxFD" runat="server" Rows="10" Width="100%"></asp:ListBox>
+
+                <div style="text-align: right; width: 100%;">
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalNewFD">+</button>
+                    <asp:Button class="btn btn-info btn-lg" ID="Button3" runat="server" Text="-" OnClick="deleteFD" />        
                 </div>
-                <div class="col-md-6">
-                    <p> Συναρτησιακές εξαρτήσεις </p> 
-                    
-                    <asp:ListBox ID="FDList" runat="server" Width="100%" Rows="10"></asp:ListBox>
 
-                    <div style="text-align: right; width: 100%;">
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalNewFD">+</button>
-                        <asp:Button class="btn btn-info btn-lg" ID="Button3" runat="server" Text="-" OnClick="deleteFD" />        
-                    </div>
-
-                  <!-- Modal νέα συναρτησιακή εξάρτηση-->
+                 <!-- Modal νέα συναρτησιακή εξάρτηση-->
                   <div class="modal fade" id="modalNewFD" role="dialog">
                     <div class="modal-dialog">
     
@@ -96,12 +89,12 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <p>Ορίζουσες</p>
-                                    <asp:CheckBoxList ID="AtrrCheckBoxList1" runat="server"></asp:CheckBoxList>
+                                    <asp:CheckBoxList ID="AttrCheckBoxList1" runat="server"></asp:CheckBoxList>
                                     
                                 </div>
                                 <div class="col-md-4">
                                     <p>Εξαρτημένες</p>
-                                    <asp:CheckBoxList ID="AtrrCheckBoxList2" runat="server"></asp:CheckBoxList>
+                                    <asp:CheckBoxList ID="AttrCheckBoxList2" runat="server"></asp:CheckBoxList>
                                 </div>
                             </div>
                             <div class="row">
@@ -116,11 +109,11 @@
       
                     </div>
                   </div>
-                    
-                </div>
+
             </div>
         </div>
-        
+    </div>
+    
     </form>
 </body>
 </html>
