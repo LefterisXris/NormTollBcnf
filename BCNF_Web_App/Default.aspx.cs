@@ -66,5 +66,21 @@ namespace BCNF_Web_App
             result_tb.Text += input_tb.Text;
             result_tb.Text += ", ";
         }
+
+        protected void input_tb_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnNewNameSchema(object sender, EventArgs e)
+        {
+            //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Only alert Message');", true);
+
+            Session["NewSchemaName"] = tbxNewSchemaName.Text.ToString();
+            Server.Transfer("Create_Schema.aspx", true);
+
+            
+        }
+
     }
 }

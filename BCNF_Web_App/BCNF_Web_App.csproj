@@ -98,6 +98,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Create_Schema.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Default.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -157,6 +158,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Create_Schema.aspx.cs">
+      <DependentUpon>Create_Schema.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Create_Schema.aspx.designer.cs">
+      <DependentUpon>Create_Schema.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
