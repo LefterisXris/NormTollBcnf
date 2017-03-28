@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Normalization
 {
-    class FRMMAIN
+    public class FRMMAIN
     {
         string localApp = ""; //η διαδρομή όπου βρίσκεται ο φάκελος του προγράμματος με αρχεία όπως οι ρυθμίσεις
         private string scFilename = ""; //η ονομασία του αρχείου όπου αποθηκεύεται το σχήμα

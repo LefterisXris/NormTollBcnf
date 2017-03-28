@@ -8,6 +8,7 @@ namespace Normalization
     /// <summary>
     /// Η κλάση Key δημιουργεί κλειδιά που περιλαμβάνουν γνωρίσματα (μονά ή και συνδυασμούς).
     /// </summary>
+    [Serializable]
     public class Key
     {
         // ο πίνακας keyAttrs περιέχει τα γνωρίσματα που περιλαμβάνει το κλειδί.
@@ -40,9 +41,36 @@ namespace Normalization
             return keyAttrs;
         }
 
-        //  KeyExistsfsdfg
+        /// <summary>
+        /// Ελέγχει αν το κλειδί περιλαμβάνεται ήδη σαν υποσύνολο στον πίνακα KeyList
+        /// </summary>
+        public bool KeyExists(List<Key> keyList)
+        {
+            foreach (Key keysearch in keyList)
+            {
+                if (keysearch.GetAttrs().Intersect(keyAttrs).Count() >= keysearch.GetAttrs().Count)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-        //        ToString
+        /// <summary>
+        /// Επιστρέφει τα γνωρίσματα του κλειδιού
+        /// </summary>
+        public override string ToString()
+        {
+            List<string> names = new List<string>();
+            foreach (Attr attr in keyAttrs)
+            {
+                names.Add(attr.Name);
+            }
+            names.Sort();
+            String str = string.Join(", ", names);
+            str = "{" + str + "}";
+            return str;
+        }
 
 
 
