@@ -19,6 +19,75 @@
         </div>
 
         <div class="row">
+            <%--Εγκλεισμός--%>
+            <div class="col-md-3"> 
+                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalEglismos" >Εγκλεισμός</button>
+
+                <!-- Modal εγκλεισμός-->
+                  <div class="modal fade" id="modalEglismos" role="dialog">
+                    <div class="modal-dialog">
+    
+                      <!-- Modal content-->
+                        <!-- To modal αυτό θα πρέπει να έχει τα εξής: 
+                            όνομα αρχείου, 
+                            περιγραφή (προεραιτική),
+                            δυνατότητα προσθήκης γνωρισμάτων (και διαγραφή, τροποποίηση κλπ.),
+                            δυνατότητα προσθήκης συναρτησιακών εξαρτήσεων (και διαγραφή, τροποποίηση κλπ.). -->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Εγκλεισμός γνωρισμάτων</h4>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <p>Επιλογή γνωρισμάτων</p>
+                            <asp:CheckBoxList ID="EglismosCheckBoxList" runat="server"></asp:CheckBoxList>
+                        </div>
+                        <div class="modal-footer">
+                          <asp:Button runat="server" ID="Button4" Text="OK"  class="btn btn-default"  OnClick="deleteAttr" UseSubmitBehavior="false" data-dismiss="modal" />
+                        </div>
+                      </div>
+      
+                    </div>
+                  </div> <%--Modal--%>
+            </div>
+            <%--Υποψήφια κλειδιά--%>
+            <div class="col-md-3">
+                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Υποψήφια κλειδιά</button>
+
+                <!-- Modal εγκλεισμός-->
+                  <div class="modal fade" id="modalKeys" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Υποψήφια κλειδιά</h4>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <p>Υποψήφια κλειδιά είναι: </p>
+
+                        </div>
+                        <div class="modal-footer">
+                          <asp:Button runat="server" ID="Button5" Text="OK"  class="btn btn-default"  UseSubmitBehavior="false" data-dismiss="modal" />
+                        </div>
+                      </div>
+      
+                    </div>
+                  </div> <%--Modal--%>
+            </div>
+            <%--Διάσπαση BCNF--%>
+            <div class="col-md-3">
+                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Διάσπαση BCNF</button>
+            </div>
+            <%--Σταδιακή διάσπαση BCNF--%>
+            <div class="col-md-3">
+                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Σταδιακή διάσπαση BCNF</button>
+            </div>
+            
+        </div>
+        <br />
+        <div class="row">
             <div class="col-md-6">
                 <p> Γνωρίσματα </p>
 

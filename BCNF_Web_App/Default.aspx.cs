@@ -80,7 +80,7 @@ namespace BCNF_Web_App
             Session["NewSchemaName"] = tbxNewSchemaName.Text.ToString();
             try
             {
-                Server.Transfer("Create_Schema.aspx", true);
+                Server.Transfer("Second.aspx", true);
             }
             catch (Exception ex)
             {

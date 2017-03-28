@@ -12,6 +12,7 @@ namespace Normalization
     /// <summary>
     /// Η κλάση Attr δημιουργεί γνωρίσματα του σχήματος
     /// </summary>
+    [Serializable]
     public class Attr
     {
         // μεταβλητές με τα χαρακτηριστικά του γνωρίσματος

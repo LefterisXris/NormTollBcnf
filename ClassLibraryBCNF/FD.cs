@@ -8,6 +8,7 @@ namespace Normalization
     /// <summary>
     /// Η κλάσση FD δημιουργεί συναρτησιακές εξαρτήσεις (functional dependency)
     /// </summary>
+    [Serializable]
     public class FD
     {
         // οι πίνακες Left και Right περιέχουν τα γνωρίσματα, που βρίσκονται στο αριστερό και το δεξί σκέλος αντίστοιχα, της συναρτησιακής εξάρτησης.
