@@ -29,7 +29,6 @@ namespace Normalization
             this.attrList = attrList;
             this.FDList = FDList;
 
-           
             //καταχωρούνται στον πίνακα bin το πλήθος των ψηφίων 1 στο δυαδικό σύστημα για κάθε αριθμό
             //η μεταβλητή str αναπαριστά δυαδικό αριθμό, ξεκινώντας από το 0 μέχρι το μέγιστο δυνητικό συνδυασμό, που είναι το 2 υψωμένο στο μέγιστο επιτρεπόμενο πλήθος των γνωρισμάτων
             string str;
@@ -44,7 +43,7 @@ namespace Normalization
             }
         }
 
-        public List<Attr> attrClosure(List<Attr> attrS, bool showOut)
+        public List<Attr> attrClosure(List<Attr> attrS, List<FD> fdListS, bool showOut)
         {
             //ο πίνακας closure περιλαμβάνει τον εγκλεισμό των γνωρισμάτων attrS
             List<Attr> closure = new List<Attr>();
@@ -68,7 +67,7 @@ namespace Normalization
             {
                 //ελέγχεται με την τομή αν τα γνωρίσματα του αριστερού σκέλους της συναρτησιακής εξάρτησης περιλαμβάνονται στον ως τώρα εγκλεισμό
                 if (fd.GetLeft().Intersect(closure).Count() >= fd.GetLeft().Count)
-                {
+                { //TODO:  παράξενο λάθος.. Δεν ξέρω τι συμβαίνει.
                     //αν ναι, τότε προστίθενται τα γνωρίσματα του δεξιού σκέλους στην συναρτησιακή εξάρτηση, με την προϋπόθεση να μην έχουν ήδη προστεθεί, κι αν αυτό γίνει τότε η διαδικασία αρχίζει ξανά από την RepeatLoop
                     List<Attr> toAdd = new List<Attr>();
                     foreach (Attr attR in fd.GetRight())
@@ -108,22 +107,24 @@ namespace Normalization
 
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        public string btnOK_Click(List<Attr> attrS)
         {
+            string finalMessage = "";
             //δημιουργείται πίνακας με τα επιλεγμένα γνωρίσματα
-            List<Attr> attrS = new List<Attr>();
+            //List<Attr> attrS = new List<Attr>();
+
             List<Attr> attrS2 = new List<Attr>();
             anyFDUsed = false;
 
             //αν δεν επιλέχθηκε κανένα γνώρισμα, η διαδικασία ακυρώνεται
             if (attrS.Count == 0)
             {
-                Msg += "Δεν έχετε επιλέξει κανένα γνώρισμα.";
+                finalMessage += "Δεν έχετε επιλέξει κανένα γνώρισμα.";
             }
             //αλλιώς εκτελείται η διαδικασία του εγκλεισμού και εμφανίζονται τα αποτελέσματά του
             else
             {
-                attrS = attrClosure(attrS, true);
+                attrS = attrClosure(attrS, FDList, true);
 
                 //δημιουργείται τοπικός πίνακας με τα ονόματα των γνωρισμάτων που περιλαμβάνονται στον εγκλεισμό
                 List<string> names = new List<string>();
@@ -132,7 +133,7 @@ namespace Normalization
                 names.Sort();
                 string str = string.Join(", ", names);
 
-                string finalMessage = "";
+                finalMessage = "";
                 if (anyFDUsed)
                 {
                     finalMessage = "Με βάση τις συναρτησιακές εξαρτήσεις, ο εγκλεισμός X\x207A είναι:\n\n{" + str + "}";
@@ -148,12 +149,31 @@ namespace Normalization
                 if (names.Count == attrList.Count)
                 {
                     List<Key> tempList = new List<Key>();
-                    //tempList = 
+                    tempList = KeysGet(FDList, attrList, false);
+                    Key tempKey = new Key();
+
+                    foreach (Key key in tempList)
+                    {
+                        if (attrS2.Count > key.GetAttrs().Count() && key.GetAttrs().Count == key.GetAttrs().Intersect(attrS2).Count())
+                        {
+                            superkey = true;
+                            tempKey = key;
+                            break;
+                        }
+                    }
+                    if (superkey)
+                    {
+                        finalMessage += "\n\nεπομένως το X αποτελεί υπερκλειδί αφού περιλαμβάνει όλα τα γνωρίσματα και είναι υπερσύνολο του υποψήφιου κλειδιού " + tempKey.ToString() + " του R.";
+                    }
+                    else
+                    {
+                        finalMessage += "\n\nεπομένως το X αποτελεί υποψήφιο κλειδί αφού περιλαμβάνει όλα τα γνωρίσματα του R.";
+                    }
                 }
 
 
             }
-
+            return finalMessage;
         }
 
         /// <summary>
@@ -301,7 +321,7 @@ namespace Normalization
                     {
                         //επίσης ελέγχεται αν ο εγκλεισμός του νέου κλειδιού περιλαμβάνει όλα τα γνωρίσματα του σχήματος, κι αν ναι, τότε προστίθεται στη λίστα των υποψήφιων κλειδιών
                         Closure frm = new Closure(key.GetAttrs(), tempFDList);
-                        if (frm.attrClosure(key.GetAttrs(),false).Intersect(newAttrList).Count() == newAttrList.Count)
+                        if (frm.attrClosure(key.GetAttrs(), FDList, false).Intersect(newAttrList).Count() == newAttrList.Count)
                         {
                             keyList.Add(key);
 

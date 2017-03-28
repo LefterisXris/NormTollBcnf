@@ -12,12 +12,13 @@ namespace BCNF_Web_App
     {
         
         private List<Attr> attrList = new List<Attr>();
-       
-        private List<Attr> attrListRight = new List<Attr>();
         private List<FD> fdList = new List<FD>();
+        private string msg = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            msg += "Logging Console...";
+            log.InnerText = msg;
 
             if (IsPostBack == false)
             {
@@ -47,12 +48,20 @@ namespace BCNF_Web_App
             {
                 fdList = (List<FD>)ViewState["fdListVS"];
             }
+            if (ViewState["log"] != null)
+            {
+                msg = (string)ViewState["log"];
+            }
+
+
+            
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
             ViewState.Add("attrListVS", attrList);
-            ViewState.Add("fdListVS",fdList);
+            ViewState.Add("fdListVS", fdList);
+            ViewState.Add("log", msg);
         }
 
         
@@ -63,6 +72,9 @@ namespace BCNF_Web_App
 
             tbxNewAttrName.Text = "";
             updateCheckBoxLists();
+
+            msg += "\nNew attribute inserted.";
+            log.InnerText = msg;
         }
 
         protected void btnNewFDClick(object sender, EventArgs e)
@@ -92,6 +104,9 @@ namespace BCNF_Web_App
 
             AttrCheckBoxList1.ClearSelection();
             AttrCheckBoxList2.ClearSelection();
+
+            msg += "\nNew FD inserted.";
+            log.InnerText = msg;
         }
 
         protected void deleteAttr(object sender, EventArgs e)
@@ -110,6 +125,25 @@ namespace BCNF_Web_App
             loadListBox(lboxFD, 1);
         }
 
+        protected void CalculateClosure(object sender, EventArgs e)
+        {
+            List<Attr> attrListSelected = new List<Attr>();
+
+            foreach (ListItem item in EglismosCheckBoxList.Items)
+            {
+                if (item.Selected)
+                {
+                    int index = EglismosCheckBoxList.SelectedIndex;
+                    attrListSelected.Add(attrList[index]);
+                }
+            }
+
+            Closure closure = new Closure(attrList, fdList);
+            msg = closure.btnOK_Click(attrListSelected);
+            log.InnerText = msg;
+        }
+
+        
         protected void updateCheckBoxLists()
         {
             AttrCheckBoxList1.Items.Clear();

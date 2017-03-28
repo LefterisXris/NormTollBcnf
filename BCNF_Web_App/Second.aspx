@@ -44,7 +44,7 @@
                             <asp:CheckBoxList ID="EglismosCheckBoxList" runat="server"></asp:CheckBoxList>
                         </div>
                         <div class="modal-footer">
-                          <asp:Button runat="server" ID="Button4" Text="OK"  class="btn btn-default"  OnClick="deleteAttr" UseSubmitBehavior="false" data-dismiss="modal" />
+                          <asp:Button runat="server" ID="Button4" Text="OK"  class="btn btn-default"  OnClick="CalculateClosure" UseSubmitBehavior="false" data-dismiss="modal" />
                         </div>
                       </div>
       
@@ -181,6 +181,8 @@
 
             </div>
         </div>
+        <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
+        <textarea runat="server" id="log" cols="40" rows="20"></textarea>
     </div>
     
     </form>
