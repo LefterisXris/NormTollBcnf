@@ -9,7 +9,7 @@ namespace Normalization
     /// Η κλάσση FD δημιουργεί συναρτησιακές εξαρτήσεις (functional dependency)
     /// </summary>
     [Serializable]
-    public class FD
+    public class FD : IEqualityComparer<FD>
     {
         // οι πίνακες Left και Right περιέχουν τα γνωρίσματα, που βρίσκονται στο αριστερό και το δεξί σκέλος αντίστοιχα, της συναρτησιακής εξάρτησης.
         // αντίστοιχα, οι BLeft και BRight είναι τα backup τους.
@@ -240,6 +240,18 @@ namespace Normalization
                 IsTrivial = false;
                 return;
             }
+        }
+
+        public bool Equals(FD x, FD y)
+        {
+            return x.GetLeft() == y.GetLeft();
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(FD obj)
+        {
+            return this.GetHashCode();
+            throw new NotImplementedException();
         }
 
         /// <summary>

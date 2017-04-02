@@ -85,6 +85,15 @@ namespace BCNF_Web_App {
         protected global::System.Web.UI.WebControls.TextBox tbxNewAttrName;
         
         /// <summary>
+        /// tbxNewAttrType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbxNewAttrType;
+        
+        /// <summary>
         /// btnSaveImage control.
         /// </summary>
         /// <remarks>

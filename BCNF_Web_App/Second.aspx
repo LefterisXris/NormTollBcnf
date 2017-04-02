@@ -115,7 +115,9 @@
                         <div class="modal-body">
                             
                             <p>Εισάγετε όνομα για το νέο γνώρισμα.</p>
-                            <asp:TextBox ID="tbxNewAttrName" runat="server" placeholder="Όνομα σχήματος"></asp:TextBox>
+                            <asp:TextBox ID="tbxNewAttrName" runat="server" placeholder="Όνομα γνωρίσματος"></asp:TextBox>
+                             <p>Εισάγετε τύπο για το νέο γνώρισμα.</p>
+                            <asp:TextBox ID="tbxNewAttrType" runat="server" placeholder="Τύπος γνωρίσματος"></asp:TextBox>
                         </div>
                         <div class="modal-footer">
                           <asp:Button runat="server" ID="btnSaveImage" Text="OK"  class="btn btn-default"  OnClick="btnNewAttrClick" UseSubmitBehavior="false" data-dismiss="modal" />

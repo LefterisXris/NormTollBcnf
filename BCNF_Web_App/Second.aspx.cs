@@ -38,8 +38,23 @@ namespace BCNF_Web_App
                 loadListBox(lboxFD, 1);
 
                 updateCheckBoxLists();
-            }
 
+                List<Product> productList = new List<Product>();
+                productList.Add(new Product("apple", 9));
+                productList.Add(new Product("orange", 4));
+
+                List<Product> productList2 = new List<Product>();
+                productList2.Add(new Product("apple", 9));
+                productList2.Add(new Product("lemon", 12));
+
+                if (productList.Intersect(productList2, new ProductComparer()).Count() == 1)
+                {
+                    System.Diagnostics.Debug.Write("NAIIII");
+                }
+                
+
+            }
+            
             if (ViewState["attrListVS"] != null)
             {
                 attrList = (List<Attr>)ViewState["attrListVS"];
@@ -67,7 +82,7 @@ namespace BCNF_Web_App
         
         protected void btnNewAttrClick(object sender, EventArgs e)
         {
-            attrList.Add(new Attr(tbxNewAttrName.Text.ToString(),""));
+            attrList.Add(new Attr(tbxNewAttrName.Text.Trim(),tbxNewAttrType.Text.Trim()));
             loadListBox(lboxAttr, 0);
 
             tbxNewAttrName.Text = "";
