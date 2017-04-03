@@ -65,37 +65,15 @@ namespace Normalization
             //ελέγχω μία προς μία τις συναρτησιακές εξαρτήσεις
             foreach (FD fd in FDList)
             {
-                List<Attr> lattr = new List<Attr>();
-                FD ff = new FD();
-                lattr.Add(new Attr("A", ""));
-                lattr.Add(new Attr("B", ""));
-                lattr.Add(new Attr("C", ""));
-
-                ff.AddLeft(lattr[0]);
-                ff.AddRight(lattr[1]);
-                ff.AddRight(lattr[2]);
-
-                Attr atS = new Attr("A","");
-                List<Attr> atSL = new List<Attr>();
-                atSL.Add(atS);
-
-
                 
-
-
-                if (ff.GetLeft().Intersect(attrS, new AttrComparer()).Count() >= ff.GetLeft().Count)
-                {
-                    System.Diagnostics.Debug.Write("NAIIII");
-                }
-
                 //ελέγχεται με την τομή αν τα γνωρίσματα του αριστερού σκέλους της συναρτησιακής εξάρτησης περιλαμβάνονται στον ως τώρα εγκλεισμό
                 if (fd.GetLeft().Intersect(closure, new AttrComparer()).Count() >= fd.GetLeft().Count)
-                { //TODO:  παράξενο λάθος.. Δεν ξέρω τι συμβαίνει.
+                { 
                     //αν ναι, τότε προστίθενται τα γνωρίσματα του δεξιού σκέλους στην συναρτησιακή εξάρτηση, με την προϋπόθεση να μην έχουν ήδη προστεθεί, κι αν αυτό γίνει τότε η διαδικασία αρχίζει ξανά από την RepeatLoop
                     List<Attr> toAdd = new List<Attr>();
                     foreach (Attr attR in fd.GetRight())
                     {
-                        if (!closure.Contains(attR))
+                        if (!closure.Contains(attR, new AttrComparer()))
                         {
                             anyFDUsed = true;
                             toAdd.Add(attR);

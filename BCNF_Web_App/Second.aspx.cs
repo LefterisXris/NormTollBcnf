@@ -25,6 +25,8 @@ namespace BCNF_Web_App
                 attrList.Add(new Attr("A", ""));
                 attrList.Add(new Attr("B", ""));
                 attrList.Add(new Attr("C", ""));
+                attrList.Add(new Attr("D", ""));
+                attrList.Add(new Attr("E", ""));
 
                 loadListBox(lboxAttr, 0);
 
@@ -34,6 +36,13 @@ namespace BCNF_Web_App
                 fd1.AddRight(attrList[2]);
 
                 fdList.Add(fd1);
+
+                FD fd2 = new FD();
+                fd2.AddLeft(attrList[1]);
+                fd2.AddRight(attrList[3]);
+                fd2.AddRight(attrList[4]);
+
+                fdList.Add(fd2);
 
                 loadListBox(lboxFD, 1);
 
@@ -148,7 +157,7 @@ namespace BCNF_Web_App
             {
                 if (item.Selected)
                 {
-                    int index = EglismosCheckBoxList.SelectedIndex;
+                    int index = EglismosCheckBoxList.Items.IndexOf(item);
                     attrListSelected.Add(attrList[index]);
                 }
             }
