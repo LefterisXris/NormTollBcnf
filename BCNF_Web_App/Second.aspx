@@ -200,12 +200,13 @@
                 </div>
                 <div class="modal-body">
                             
-                    <p>Επιλέξτε αρχείο </p>
-                    <asp:FileUpload ID="FileUpload1" runat="server" />
-
+                    <%--<p>Επιλέξτε αρχείο </p>
+                    <asp:FileUpload ID="FileUpload1" runat="server" />--%>
+                    <p>Επιλέξτε παράδειγμα για φόρτωση</p>
+                    <asp:DropDownList ID="schemaLoadDropDownList" runat="server"></asp:DropDownList>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="UploadFile" UseSubmitBehavior="false" data-dismiss="modal" />
+                    <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="loadSchemasInApplication" UseSubmitBehavior="false" data-dismiss="modal" />
                 </div>
                 </div>
       

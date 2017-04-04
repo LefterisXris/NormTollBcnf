@@ -166,13 +166,13 @@ namespace BCNF_Web_App {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea log;
         
         /// <summary>
-        /// FileUpload1 control.
+        /// schemaLoadDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
+        protected global::System.Web.UI.WebControls.DropDownList schemaLoadDropDownList;
         
         /// <summary>
         /// Button6 control.

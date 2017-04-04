@@ -15,6 +15,7 @@ namespace BCNF_Web_App
         private List<Attr> attrList = new List<Attr>();
         private List<FD> fdList = new List<FD>();
         private string msg = "";
+        private List<string> schemasForLoad = new List<string>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -48,7 +49,27 @@ namespace BCNF_Web_App
                 loadListBox(lboxFD, 1);
 
                 updateCheckBoxLists();
+
                 
+                schemasForLoad.Add("f.nor");
+                schemasForLoad.Add("sc_StockExchange.nor");
+                schemasForLoad.Add("sc1_01.nor");
+                schemasForLoad.Add("sc1_02.nor");
+                schemasForLoad.Add("sc1_A1.nor");
+                schemasForLoad.Add("sc1_A2.nor");
+                schemasForLoad.Add("sc2_01.nor");
+                schemasForLoad.Add("sc2_02.nor");
+                schemasForLoad.Add("sc2_03.nor");
+                schemasForLoad.Add("sc2_04.nor");
+                schemasForLoad.Add("sc2_05.nor");
+                schemasForLoad.Add("sc3.nor");
+                schemasForLoad.Add("ΖΑΧΑΡΟΠΛΑΣΤΕΙΟ.nor");
+                schemasForLoad.Add("ΙΑΤΡΕΙΟ.nor");
+
+                loadSchemsDropDownList(schemasForLoad);
+
+
+
             }
             
             if (ViewState["attrListVS"] != null)
@@ -63,6 +84,10 @@ namespace BCNF_Web_App
             {
                 msg = (string)ViewState["log"];
             }
+            if (ViewState["loadSchemas"] != null)
+            {
+                schemasForLoad = (List<string>)ViewState["loadSchemas"];
+            }
 
 
             
@@ -73,6 +98,7 @@ namespace BCNF_Web_App
             ViewState.Add("attrListVS", attrList);
             ViewState.Add("fdListVS", fdList);
             ViewState.Add("log", msg);
+            ViewState.Add("loadSchemas", schemasForLoad);
         }
 
         
@@ -154,7 +180,7 @@ namespace BCNF_Web_App
             log.InnerText = msg;
         }
 
-        protected void CalculateKeys(Object sender, EventArgs e)
+        protected void CalculateKeys(object sender, EventArgs e)
         {
             Closure closure = new Closure(attrList, fdList);
             List<Key> keyList = new List<Key>();
@@ -205,6 +231,122 @@ namespace BCNF_Web_App
             
         }
 
+        protected void loadSchemsDropDownList(List<string> schemasForLoad)
+        {
+            foreach (String schema in schemasForLoad)
+            {
+                schemaLoadDropDownList.Items.Add(schema);
+            }
+        }
+
+        protected void loadSchemasInApplication(object sender, EventArgs e)
+        {
+            int index = schemaLoadDropDownList.SelectedIndex;
+            attrList.Clear();
+            fdList.Clear();
+
+            switch (index)
+            {
+                case 0:
+                    attrList.Add(new Attr("A", "")); attrList.Add(new Attr("B", ""));
+                    attrList.Add(new Attr("C", "")); attrList.Add(new Attr("D", ""));
+                    attrList.Add(new Attr("E", ""));
+
+                    FD fd1 = new FD();
+                    fd1.AddLeft(attrList[0]); fd1.AddRight(attrList[1]); fd1.AddRight(attrList[2]);
+
+                    FD fd2 = new FD();
+                    fd2.AddLeft(attrList[1]); fd2.AddRight(attrList[3]); fd2.AddRight(attrList[4]);
+
+                    fdList.Add(fd1);     fdList.Add(fd2);
+
+                    loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    break;
+                case 1:
+                    attrList.Add(new Attr("A", "")); attrList.Add(new Attr("B", ""));
+                    attrList.Add(new Attr("C", "")); attrList.Add(new Attr("D", ""));
+                    attrList.Add(new Attr("E", ""));
+                    //TODO: Load the schemas
+                    FD fd1 = new FD();
+                    fd1.AddLeft(attrList[0]); fd1.AddRight(attrList[1]); fd1.AddRight(attrList[2]);
+
+                    FD fd2 = new FD();
+                    fd2.AddLeft(attrList[1]); fd2.AddRight(attrList[3]); fd2.AddRight(attrList[4]);
+
+                    fdList.Add(fd1); fdList.Add(fd2);
+
+                    loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+                case 8:
+
+                    break;
+                case 9:
+
+                    break;
+                case 10:
+
+                    break;
+                case 11:
+
+                    break;
+                case 12:
+
+                    break;
+                case 13:
+
+                    break;
+                default:
+                    msg = "Προέκυψε κάποιο σφάλμα...";
+                    log.InnerText = msg;
+                    
+                    SchemaLoaderMethod();
+                    break;
+            }
+        }
+
+        protected void SchemaLoaderMethod(List<string> attrNames, List<int> leftIndexes, List<int> rightIndexes)
+        {
+            attrList.Clear();
+            foreach (string attrName in attrNames)
+            {
+                attrList.Add(new Attr(attrName, ""));
+            }
+            loadListBox(lboxAttr, 0);
+
+            fdList.Clear();
+            FD fd = new FD();
+            foreach (int index in leftIndexes)
+            {
+                fd.AddLeft(attrList[index]);
+            }
+
+            foreach (int index in rightIndexes)
+            {
+                fd.AddRight(attrList[index]);
+            }
+
+            fdList.Add(fd);
+            loadListBox(lboxFD, 1);
+        }
+
         protected void loadbbb(object sender, EventArgs e)
         {
             foreach (Attr attr in attrList)
@@ -213,9 +355,9 @@ namespace BCNF_Web_App
             }
         }
 
-        protected void UploadFile(Object sender, EventArgs e)
+        protected void UploadFile(object sender, EventArgs e)
         {
-            String uriString = "ftp://localhost/Files";
+          /*  String uriString = "ftp://localhost/Files";
 
 
             // Create a new WebClient instance.
@@ -228,7 +370,7 @@ namespace BCNF_Web_App
 
             // Decode and display the response.
             msg = System.Text.Encoding.ASCII.GetString(responseArray);
-            log.InnerText = msg;
+            log.InnerText = msg;*/
         }
     }
 }
