@@ -24,7 +24,7 @@ namespace BCNF_Web_App
 
             if (IsPostBack == false)
             {
-                attrList.Add(new Attr("A", ""));
+               /* attrList.Add(new Attr("A", ""));
                 attrList.Add(new Attr("B", ""));
                 attrList.Add(new Attr("C", ""));
                 attrList.Add(new Attr("D", ""));
@@ -48,7 +48,7 @@ namespace BCNF_Web_App
 
                 loadListBox(lboxFD, 1);
 
-                updateCheckBoxLists();
+                updateCheckBoxLists();*/
 
                 
                 schemasForLoad.Add("f.nor");
@@ -233,7 +233,7 @@ namespace BCNF_Web_App
 
         protected void loadSchemsDropDownList(List<string> schemasForLoad)
         {
-            foreach (String schema in schemasForLoad)
+            foreach (string schema in schemasForLoad)
             {
                 schemaLoadDropDownList.Items.Add(schema);
             }
@@ -247,82 +247,387 @@ namespace BCNF_Web_App
 
             switch (index)
             {
-                case 0:
-                    attrList.Add(new Attr("A", "")); attrList.Add(new Attr("B", ""));
-                    attrList.Add(new Attr("C", "")); attrList.Add(new Attr("D", ""));
-                    attrList.Add(new Attr("E", ""));
+                case 0: // f.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "" };
 
-                    FD fd1 = new FD();
-                    fd1.AddLeft(attrList[0]); fd1.AddRight(attrList[1]); fd1.AddRight(attrList[2]);
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
 
-                    FD fd2 = new FD();
-                    fd2.AddLeft(attrList[1]); fd2.AddRight(attrList[3]); fd2.AddRight(attrList[4]);
+                        FD[] fdT = new FD[] { new FD(), new FD() };
 
-                    fdList.Add(fd1);     fdList.Add(fd2);
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddRight(attrList[1]); fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[1]); fdT[1].AddRight(attrList[3]); fdT[1].AddRight(attrList[4]);
 
-                    loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 1:
-                    attrList.Add(new Attr("A", "")); attrList.Add(new Attr("B", ""));
-                    attrList.Add(new Attr("C", "")); attrList.Add(new Attr("D", ""));
-                    attrList.Add(new Attr("E", ""));
-                    //TODO: Load the schemas
-                    FD fd1 = new FD();
-                    fd1.AddLeft(attrList[0]); fd1.AddRight(attrList[1]); fd1.AddRight(attrList[2]);
+                case 1: // sc_StockExchange.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "bra_name", "COM", "com_symbol", "ftse_name", "ftse_revision", "included_weigh", "PART", "PUB", "pub_com_id", "sed_gd", "ses_date", "SHA", "sha_afm", "sha_com_sharesnum", "SHEET", "sheet_id" };
+                        string[] attrTypeRRR = new string[] { "string", "category, gdpart, name, sharesnum", "string", "string", "date", "single", "acts, close, high, low, open, value, volume", "date, intro, link, mme", "integer", "single", "date", "email, entity, name", "integer", "integer", "bookvalue, equity, profits, turnover, year", "" };
 
-                    FD fd2 = new FD();
-                    fd2.AddLeft(attrList[1]); fd2.AddRight(attrList[3]); fd2.AddRight(attrList[4]);
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
 
-                    fdList.Add(fd1); fdList.Add(fd2);
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD(), new FD(), new FD(), new FD(), new FD(), new FD() };
 
-                    loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                        fdT[0].AddLeft(attrList[2]); fdT[0].AddRight(attrList[0]); fdT[0].AddRight(attrList[1]);
+                        fdT[1].AddLeft(attrList[3]); fdT[1].AddRight(attrList[4]); 
+                        fdT[2].AddLeft(attrList[2]); fdT[2].AddLeft(attrList[3]);  fdT[2].AddRight(attrList[5]);
+                        fdT[3].AddLeft(attrList[2]); fdT[3].AddLeft(attrList[8]); fdT[3].AddRight(attrList[7]);
+                        fdT[4].AddLeft(attrList[12]); fdT[4].AddRight(attrList[11]); 
+                        fdT[5].AddLeft(attrList[2]); fdT[5].AddLeft(attrList[12]); fdT[5].AddRight(attrList[13]);
+                        fdT[6].AddLeft(attrList[10]); fdT[6].AddRight(attrList[9]);
+                        fdT[7].AddLeft(attrList[2]); fdT[7].AddLeft(attrList[10]); fdT[7].AddRight(attrList[6]);
+                        fdT[8].AddLeft(attrList[15]); fdT[8].AddRight(attrList[2]); fdT[8].AddRight(attrList[14]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 2:
+                case 2: // sc1_01.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddLeft(attrList[1]); fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[2]); fdT[1].AddLeft(attrList[3]); fdT[1].AddRight(attrList[4]);
+                        fdT[2].AddLeft(attrList[3]); fdT[2].AddLeft(attrList[4]); fdT[2].AddRight(attrList[1]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 3:
+                case 3: // sc1_02.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F", "G", "H" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[1]); fdT[0].AddLeft(attrList[2]); fdT[0].AddRight(attrList[0]); fdT[0].AddRight(attrList[3]);
+                        fdT[1].AddLeft(attrList[4]); fdT[1].AddRight(attrList[5]); fdT[1].AddRight(attrList[7]);
+                        fdT[2].AddLeft(attrList[5]); fdT[2].AddRight(attrList[6]); fdT[2].AddRight(attrList[7]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 4:
+                case 4: // sc1_A1.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[1]); fdT[0].AddRight(attrList[4]);
+                        fdT[1].AddLeft(attrList[4]); fdT[1].AddRight(attrList[5]); fdT[1].AddRight(attrList[7]);
+                        fdT[2].AddLeft(attrList[1]); fdT[2].AddLeft(attrList[2]); fdT[2].AddLeft(attrList[3]); fdT[2].AddRight(attrList[6]);
+                        fdT[3].AddLeft(attrList[2]); fdT[3].AddLeft(attrList[3]); fdT[3].AddRight(attrList[0]);
+                        fdT[4].AddLeft(attrList[0]); fdT[4].AddRight(attrList[9]);
+                        fdT[5].AddLeft(attrList[8]); fdT[5].AddRight(attrList[1]); fdT[5].AddRight(attrList[2]); fdT[5].AddRight(attrList[3]); fdT[5].AddRight(attrList[4]);
+                        fdT[6].AddLeft(attrList[7]); fdT[6].AddRight(attrList[8]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 5:
+                case 5: // sc1_A2.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddLeft(attrList[1]);  fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[0]); fdT[1].AddRight(attrList[3]); fdT[1].AddRight(attrList[4]);
+                        fdT[2].AddLeft(attrList[1]); fdT[2].AddRight(attrList[5]);
+                        fdT[3].AddLeft(attrList[5]); fdT[3].AddRight(attrList[6]); fdT[3].AddRight(attrList[7]);
+                        fdT[4].AddLeft(attrList[3]); fdT[4].AddRight(attrList[8]); fdT[4].AddRight(attrList[9]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 6:
+                case 6: // sc2_01.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddRight(attrList[1]); fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[1]); fdT[1].AddRight(attrList[3]); 
+                        fdT[2].AddLeft(attrList[0]); fdT[2].AddLeft(attrList[1]);  fdT[2].AddRight(attrList[4]);
+                        fdT[3].AddLeft(attrList[4]); fdT[3].AddRight(attrList[5]); 
+                        
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 7:
+                case 7: // sc2_02.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddRight(attrList[1]); fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[1]); fdT[1].AddRight(attrList[3]);
+                        fdT[2].AddLeft(attrList[0]); fdT[2].AddLeft(attrList[3]); fdT[2].AddRight(attrList[4]);
+                        fdT[3].AddLeft(attrList[3]); fdT[3].AddRight(attrList[5]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 8:
+                case 8: // sc2_03.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddRight(attrList[1]); 
+                        fdT[1].AddLeft(attrList[1]); fdT[1].AddRight(attrList[2]); fdT[1].AddRight(attrList[3]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 9:
+                case 9: // sc2_04.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddLeft(attrList[1]); fdT[0].AddRight(attrList[2]); fdT[0].AddRight(attrList[3]);
+                        fdT[1].AddLeft(attrList[3]); fdT[1].AddRight(attrList[1]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 10:
+                case 10: // sc2_05.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "A", "B", "C", "D", "E", "F", "G" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddRight(attrList[1]); fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[2]); fdT[1].AddRight(attrList[0]); fdT[1].AddRight(attrList[1]);
+                        fdT[2].AddLeft(attrList[3]); fdT[2].AddLeft(attrList[4]); fdT[2].AddRight(attrList[5]);
+                        fdT[3].AddLeft(attrList[5]); fdT[3].AddRight(attrList[3]); fdT[3].AddRight(attrList[4]);
+                        fdT[4].AddLeft(attrList[2]); fdT[4].AddLeft(attrList[6]); fdT[4].AddRight(attrList[5]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 11:
+                case 11: // sc3.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "cd_id", "cd_title", "company_id", "company_name", "composer_id", "composer_name", "lyricist_id", "lyricist_name", "performer_id", "performer_name", "rec_duration", "rec_id", "song_id", "song_title", "track_duration", "track_position", "year" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD(), new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[12]); fdT[0].AddRight(attrList[13]);
+                        fdT[1].AddLeft(attrList[4]); fdT[1].AddRight(attrList[5]);
+                        fdT[2].AddLeft(attrList[6]); fdT[2].AddRight(attrList[7]); 
+                        fdT[3].AddLeft(attrList[11]); fdT[3].AddRight(attrList[10]); fdT[3].AddRight(attrList[12]);
+                        fdT[4].AddLeft(attrList[8]); fdT[4].AddRight(attrList[9]);
+                        fdT[5].AddLeft(attrList[0]); fdT[5].AddLeft(attrList[15]); fdT[5].AddLeft(attrList[11]); fdT[5].AddRight(attrList[14]);
+                        fdT[6].AddLeft(attrList[0]); fdT[6].AddRight(attrList[1]); fdT[6].AddRight(attrList[2]); fdT[6].AddRight(attrList[16]);
+                        fdT[7].AddLeft(attrList[2]); fdT[7].AddRight(attrList[3]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 12:
+                case 12: // ΖΑΧΑΡΟΠΛΑΣΤΕΙΟ.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "ingr_avgcost", "ingr_name", "ingr_volume", "ord_date", "ord_id", "ord_prod_volume", "prod_ingr_volume", "prod_name", "prod_price" };
+                        string[] attrTypeRRR = new string[] { "double", "string", "integer", "date", "integer", "double", "integer", "string", "double" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[1]); fdT[0].AddRight(attrList[0]);  fdT[0].AddRight(attrList[2]);
+                        fdT[1].AddLeft(attrList[7]); fdT[1].AddRight(attrList[8]);
+                        fdT[2].AddLeft(attrList[1]); fdT[2].AddLeft(attrList[7]);  fdT[2].AddRight(attrList[6]);
+                        fdT[3].AddLeft(attrList[4]); fdT[3].AddLeft(attrList[7]);  fdT[3].AddRight(attrList[5]);
+                        fdT[4].AddLeft(attrList[4]); fdT[4].AddRight(attrList[3]);
+                       
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
-                case 13:
+                case 13: // ΙΑΤΡΕΙΟ.nor
+                    for (int j = 0; j < 1; j++)
+                    {
+                        string[] attrNamesRRR = new string[] { "AMKA", "appID", "doctorName", "patName", "time" };
+                        string[] attrTypeRRR = new string[] { "", "", "", "", "" };
 
+                        for (int i = 0; i < attrNamesRRR.Length; i++)
+                        {
+                            AttrCreate(attrNamesRRR[i], attrTypeRRR[i]);
+                        }
+
+                        FD[] fdT = new FD[] { new FD(), new FD(), new FD() };
+
+                        fdT[0].AddLeft(attrList[0]); fdT[0].AddRight(attrList[3]);
+                        fdT[1].AddLeft(attrList[1]); fdT[1].AddRight(attrList[0]); fdT[1].AddRight(attrList[2]); fdT[1].AddRight(attrList[4]);
+                        fdT[2].AddLeft(attrList[4]); fdT[2].AddRight(attrList[1]);
+
+                        for (int i = 0; i < fdT.Length; i++)
+                        {
+                            fdList.Add(fdT[i]);
+                        }
+
+                        loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
+                    }
                     break;
                 default:
                     msg = "Προέκυψε κάποιο σφάλμα...";
                     log.InnerText = msg;
                     
-                    SchemaLoaderMethod();
+                    
                     break;
             }
         }
 
-        protected void SchemaLoaderMethod(List<string> attrNames, List<int> leftIndexes, List<int> rightIndexes)
+        protected void SchemaLoaderMethod(string[] attrNames)
         {
             attrList.Clear();
             foreach (string attrName in attrNames)
@@ -331,7 +636,7 @@ namespace BCNF_Web_App
             }
             loadListBox(lboxAttr, 0);
 
-            fdList.Clear();
+           /* fdList.Clear();
             FD fd = new FD();
             foreach (int index in leftIndexes)
             {
@@ -344,7 +649,7 @@ namespace BCNF_Web_App
             }
 
             fdList.Add(fd);
-            loadListBox(lboxFD, 1);
+            loadListBox(lboxFD, 1);*/
         }
 
         protected void loadbbb(object sender, EventArgs e)
@@ -371,6 +676,64 @@ namespace BCNF_Web_App
             // Decode and display the response.
             msg = System.Text.Encoding.ASCII.GetString(responseArray);
             log.InnerText = msg;*/
+        }
+
+        /// <summary>
+        /// Μέθοδος δημιουργίας νέου γνωρίσματος και προσθήκης του στην attrList. Επιστρέφει false αν το όνομα χρησιμοποιείται ήδη για άλλο αντικείμενο
+        /// </summary>
+        /// <param name="name">Ονομασία του γνωρίσματος</param>
+        /// <param name="type">Τύπος του γνωρίσματος</param>
+        protected bool AttrCreate(string name, string type)
+        {
+            //ελέγχεται αν το όνομα του νέου γνωρίσματος χρησιμοποιείται ήδη, κι αν ναι, επιστρέφεται η ένδειξη false
+            if (AttrExists(name, null)) return false;
+
+            //δημιουργείται αντικείμενο τύπου Attr και προστίθεται στην attrList
+            Attr attr = new Attr(name, type);
+            attrList.Add(attr);
+
+            //επιστρέφεται η ένδειξη true
+            return true;
+        }
+
+        /// <summary>
+        /// Ελέγχει και επιστρέφει true αν το όνομα name χρησιμοποιείται ήδη για άλλο γνώρισμα
+        /// </summary>
+        /// <param name="name">Η ονομασία του γνωρίσματος που ελέγχουμε</param>
+        /// <param name="attr">Η αναφορά στο αντικείμενο του γνωρίσματος</param>
+        public bool AttrExists(string name, Attr attr)
+        {
+            for (int i = 0; i < attrList.Count; i++)
+                if (attrList[i].Name == name && attr != attrList[i]) return true; //το όνομα χρησιμοποιείται ήδη
+            return false; //το όνομα δεν χρησιμοποιείται
+        }
+
+        /// <summary>
+        /// Μέθοδος ελέγχου και προσθήκης νέας συναρτησιακής εξάρτησης στην FDList
+        /// </summary>
+        /// <param name="fd">Το αντικείμενο συναρτησιακής εξάρτησης fd θα ελεγχθεί αν υπάρχει κάποιο άλλο παρόμοιο με αυτό πριν καταχωρηθεί.</param>
+        public bool FDCreate(FD fd)
+        {
+            //ελέγχεται αν η νέα συναρτησιακή εξάρτηση είναι παρόμοια με μια άλλη, κι αν ναι, επιστρέφεται η ένδειξη false
+            if (FDExists(fd, -1)) return false;
+
+            //το νέο αντικείμενο προστίθεται στην FDList
+            fdList.Add(fd);
+
+            //επιστρέφεται η ένδειξη true
+            return true;
+        }
+
+        /// <summary>
+        /// Ελέγχει και επιστρέφει true αν υπάρχει παρόμοια συναρτησιακή εξάρτηση
+        /// </summary>
+        /// <param name="fd">Το αντικείμενο της συναρτησιακής εξάρτησης που ελέγχουμε</param>
+        /// <param name="id">Ο αύξοντας αριθμός της υπό επεξεργασία συναρτησιακής εξάρτησης</param>
+        public bool FDExists(FD fd, int id)
+        {
+            for (int i = 0; i < fdList.Count; i++)
+                if (fdList[i].ToString() == fd.ToString() && i != id) return true; //βρέθηκε παρόμοια συναρτησιακή εξάρτηση
+            return false; //δεν υπάρχει παρόμοια συναρτησιακή εξάρτηση
         }
     }
 }
