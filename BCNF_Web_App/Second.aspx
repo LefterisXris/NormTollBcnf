@@ -55,13 +55,13 @@
             <div class="col-md-3">
                 <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Υποψήφια κλειδιά</button>
 
-                <!-- Modal εγκλεισμός-->
+                <!-- Modal Υποψήφια κλειδιά-->
                   <div class="modal fade" id="modalKeys" role="dialog">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title">Υποψήφια κλειδιά</h4>
+                          <h4 class="modal-title">Click OK για υποψήφια κλειδιά</h4>
                         </div>
                         <div class="modal-body">
                             
@@ -69,7 +69,7 @@
 
                         </div>
                         <div class="modal-footer">
-                          <asp:Button runat="server" ID="Button5" Text="OK"  class="btn btn-default"  UseSubmitBehavior="false" data-dismiss="modal" />
+                          <asp:Button runat="server" ID="Button5" Text="OK"  class="btn btn-default" OnClick="CalculateKeys" UseSubmitBehavior="false" data-dismiss="modal" />
                         </div>
                       </div>
       
@@ -88,6 +88,7 @@
         </div>
         <br />
         <div class="row">
+            <%--Γνωρίσματα--%>
             <div class="col-md-6">
                 <p> Γνωρίσματα </p>
 
@@ -129,6 +130,7 @@
 
             </div>
 
+            <%--Συναρτησιακές εξαρτήσεις--%>
             <div class="col-md-6">
                 <p> Συναρτησιακές εξαρτήσεις </p>
 
@@ -185,6 +187,30 @@
         </div>
         <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
         <textarea runat="server" id="log" cols="40" rows="20"></textarea>
+
+        <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#loadSchema">Load</button>
+
+            <!-- Modal φόρτωση σχήματος-->
+            <div class="modal fade" id="loadSchema" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Load</h4>
+                </div>
+                <div class="modal-body">
+                            
+                    <p>Επιλέξτε αρχείο </p>
+                    <asp:FileUpload ID="FileUpload1" runat="server" />
+
+                </div>
+                <div class="modal-footer">
+                    <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="UploadFile" UseSubmitBehavior="false" data-dismiss="modal" />
+                </div>
+                </div>
+      
+            </div>
+            </div> <%--Modal--%>
     </div>
     
     </form>

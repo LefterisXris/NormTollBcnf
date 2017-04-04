@@ -155,7 +155,7 @@ namespace Normalization
 
                     foreach (Key key in tempList)
                     {
-                        if (attrS2.Count > key.GetAttrs().Count() && key.GetAttrs().Count == key.GetAttrs().Intersect(attrS2).Count())
+                        if (attrS2.Count > key.GetAttrs().Count() && key.GetAttrs().Count == key.GetAttrs().Intersect(attrS2, new AttrComparer()).Count())
                         {
                             superkey = true;
                             tempKey = key;
@@ -199,7 +199,7 @@ namespace Normalization
             {
                 attr.Exclude = true;
                 foreach (FD fd in FDList)
-                    if (fd.GetLeft().Contains(attr))
+                    if (fd.GetLeft().Contains(attr, new AttrComparer()))
                         attr.Exclude = false;
 
                 //για να οριστικοποιηθεί ο αποκλεισμός του γνωρίσματος, πρέπει να μην συμμετέχει όμως και σε κανένα δεξί
@@ -212,7 +212,7 @@ namespace Normalization
                         attrAll.AddRange(fd.GetRight());
 
                     //αν το γνώρισμα attr υπάρχει στην τοπική λίστα με τα γνωρίσματα των δεξιών σκελών, ο αποκλεισμός του γνωρίσματος αίρεται
-                    if (attrAll.Contains(attr))
+                    if (attrAll.Contains(attr, new AttrComparer()))
                         attr.Exclude = true;
                     else
                         attr.Exclude = false;
@@ -276,7 +276,7 @@ namespace Normalization
                     FD newfd = new FD();
                     newfd.AddLeft(fd.GetLeft());
                     newfd.AddRight(attr);
-                    if (newfd.GetAll().Intersect(newAttrList).Count() == newfd.GetAll().Count)
+                    if (newfd.GetAll().Intersect(newAttrList, new AttrComparer()).Count() == newfd.GetAll().Count)
                     {
                         tempFDList.Add(newfd);
                     }
@@ -322,7 +322,7 @@ namespace Normalization
                     {
                         //επίσης ελέγχεται αν ο εγκλεισμός του νέου κλειδιού περιλαμβάνει όλα τα γνωρίσματα του σχήματος, κι αν ναι, τότε προστίθεται στη λίστα των υποψήφιων κλειδιών
                         Closure frm = new Closure(key.GetAttrs(), tempFDList);
-                        if (frm.attrClosure(key.GetAttrs(), FDList, false).Intersect(newAttrList).Count() == newAttrList.Count)
+                        if (frm.attrClosure(key.GetAttrs(), FDList, false).Intersect(newAttrList, new AttrComparer()).Count() == newAttrList.Count)
                         {
                             keyList.Add(key);
 

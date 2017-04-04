@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Normalization;
+using System.Net;
 
 namespace BCNF_Web_App
 {
@@ -47,21 +48,7 @@ namespace BCNF_Web_App
                 loadListBox(lboxFD, 1);
 
                 updateCheckBoxLists();
-
-                List<Product> productList = new List<Product>();
-                productList.Add(new Product("apple", 9));
-                productList.Add(new Product("orange", 4));
-
-                List<Product> productList2 = new List<Product>();
-                productList2.Add(new Product("apple", 9));
-                productList2.Add(new Product("lemon", 12));
-
-                if (productList.Intersect(productList2, new ProductComparer()).Count() == 1)
-                {
-                    System.Diagnostics.Debug.Write("NAIIII");
-                }
                 
-
             }
             
             if (ViewState["attrListVS"] != null)
@@ -167,7 +154,23 @@ namespace BCNF_Web_App
             log.InnerText = msg;
         }
 
-        
+        protected void CalculateKeys(Object sender, EventArgs e)
+        {
+            Closure closure = new Closure(attrList, fdList);
+            List<Key> keyList = new List<Key>();
+            keyList = closure.KeysGet(fdList, attrList, true);
+
+            msg = "";
+            msg += "Υποψήφια κλειδιά Που βρέθηκαν: \n";
+
+            foreach (Key key in keyList)
+            {
+                msg += key.ToString() + "\n";
+            }
+
+            log.InnerText = msg;
+        }
+
         protected void updateCheckBoxLists()
         {
             AttrCheckBoxList1.Items.Clear();
@@ -208,6 +211,24 @@ namespace BCNF_Web_App
             {
                 EglismosCheckBoxList.Items.Add(attr.Name);
             }
+        }
+
+        protected void UploadFile(Object sender, EventArgs e)
+        {
+            String uriString = "ftp://localhost/Files";
+
+
+            // Create a new WebClient instance.
+            WebClient myWebClient = new WebClient();
+            string fileName = FileUpload1.FileName.ToString();
+
+            // Upload the file to the URI.
+            // The 'UploadFile(uriString,fileName)' method implicitly uses HTTP POST method.
+            byte[] responseArray = myWebClient.UploadFile(uriString, fileName);
+
+            // Decode and display the response.
+            msg = System.Text.Encoding.ASCII.GetString(responseArray);
+            log.InnerText = msg;
         }
     }
 }
