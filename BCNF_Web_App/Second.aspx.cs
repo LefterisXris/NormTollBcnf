@@ -9,22 +9,29 @@ using System.Net;
 
 namespace BCNF_Web_App
 {
+    /// <summary>
+    /// Κλάση Second. Περιλαμβάνει όλες τις λειτουργίες της Εφαρμογής.
+    /// // TODO: Αλλαγή ονόματος. 
+    /// </summary>
     public partial class Second : System.Web.UI.Page
     {
         
-        private List<Attr> attrList = new List<Attr>();
-        private List<FD> fdList = new List<FD>();
-        private string msg = "";
-        private List<string> schemasForLoad = new List<string>();
+        private List<Attr> attrList = new List<Attr>(); // Λίστα με αντικείμενα Attr, για τα γνωρίσματα.
+        private List<FD> fdList = new List<FD>(); // Λίστα με αντικείμενα FD, για τις συναρτησιακές εξαρτήσεις.
+        private string msg = ""; // Μεταβλητή που τυπώνει στην Logging Console. (βοηθητική) // TODO: άλλος σχεδιασμός.
+        private List<string> schemasForLoad = new List<string>(); // Λίστα από string για τα ονόματα των έτοιμων παραδειγμάτων.
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Αρχικοποίηση της Logging Console.
             msg += "Logging Console...";
             log.InnerText = msg;
 
+            // Αρχικοποίηση μερικών γνωρισμάτων και συναρτησιακών εξαρτήσεων μόνο την πρώτη φορά που τρέχει η εφαρμογή.
             if (IsPostBack == false)
             {
-               /* attrList.Add(new Attr("A", ""));
+                #region Initiate some Attrs and FDs.
+                attrList.Add(new Attr("A", ""));
                 attrList.Add(new Attr("B", ""));
                 attrList.Add(new Attr("C", ""));
                 attrList.Add(new Attr("D", ""));
@@ -48,9 +55,12 @@ namespace BCNF_Web_App
 
                 loadListBox(lboxFD, 1);
 
-                updateCheckBoxLists();*/
+                updateCheckBoxLists();
+                #endregion
 
-                
+                // Ονόματα έτοιμων παραδειγμάτων που θα φαίνονται στην DropdownList. 
+                #region Load Schemas
+                // TODO: Μήπως να την κάνω απλή List?
                 schemasForLoad.Add("f.nor");
                 schemasForLoad.Add("sc_StockExchange.nor");
                 schemasForLoad.Add("sc1_01.nor");
@@ -68,70 +78,72 @@ namespace BCNF_Web_App
 
                 loadSchemsDropDownList(schemasForLoad);
 
-
+                #endregion
 
             }
-            
+
+            #region ViewStates Load
             if (ViewState["attrListVS"] != null)
-            {
                 attrList = (List<Attr>)ViewState["attrListVS"];
-            } 
-            if (ViewState["fdListVS"] != null)
-            {
-                fdList = (List<FD>)ViewState["fdListVS"];
-            }
-            if (ViewState["log"] != null)
-            {
-                msg = (string)ViewState["log"];
-            }
-            if (ViewState["loadSchemas"] != null)
-            {
-                schemasForLoad = (List<string>)ViewState["loadSchemas"];
-            }
-
-
             
+            if (ViewState["fdListVS"] != null)
+                fdList = (List<FD>)ViewState["fdListVS"];
+            
+            if (ViewState["logVS"] != null)
+                 msg = (string)ViewState["logVS"];
+            
+            if (ViewState["loadSchemasVS"] != null)
+                schemasForLoad = (List<string>)ViewState["loadSchemasVS"];            
+            #endregion
+
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            // Φορτώνονται οι μεταβλητές που αποθηκεύω μέσω ViewState.
             ViewState.Add("attrListVS", attrList);
             ViewState.Add("fdListVS", fdList);
-            ViewState.Add("log", msg);
-            ViewState.Add("loadSchemas", schemasForLoad);
+            ViewState.Add("logVS", msg);
+            ViewState.Add("loadSchemasVS", schemasForLoad);
         }
 
-        
+        /// <summary>
+        /// Καλείται όταν πατηθεί το ΟΚ από το Modal Γνωρίσματος.
+        /// </summary>
         protected void btnNewAttrClick(object sender, EventArgs e)
         {
-            attrList.Add(new Attr(tbxNewAttrName.Text.Trim(),tbxNewAttrType.Text.Trim()));
+            // Δημιουργείται ένα γνώρισμα με όνομα και τύπο που δόθηκε.
+            // TODO: Διαγραφή?  attrList.Add(new Attr(tbxNewAttrName.Text.Trim(),tbxNewAttrType.Text.Trim()));
+            AttrCreate(tbxNewAttrName.Text.Trim(), tbxNewAttrType.Text.Trim());
             loadListBox(lboxAttr, 0);
-
-            tbxNewAttrName.Text = "";
+            // TODO: Διαγραφή?  tbxNewAttrName.Text = "";
             updateCheckBoxLists();
 
             msg += "\nNew attribute inserted.";
             log.InnerText = msg;
         }
 
+        /// <summary>
+        /// Καλείται όταν πατηθεί ΟΚ από το Modal Συναρτησιακής Εξάρτησης.
+        /// </summary>
         protected void btnNewFDClick(object sender, EventArgs e)
         {
             FD fd = new FD();
             
-            foreach (ListItem item in AttrCheckBoxList1.Items)
+            foreach (ListItem item in LeftFDCheckBoxListAttrSelection.Items)
             {
                 if (item.Selected)
                 {
-                    int i = AttrCheckBoxList1.Items.IndexOf(item);
+                    int i = LeftFDCheckBoxListAttrSelection.Items.IndexOf(item);
                     fd.AddLeft(attrList[i]);
                 }
             }
 
-            foreach (ListItem item in AttrCheckBoxList2.Items)
+            foreach (ListItem item in RightFDCheckBoxListAttrSelection.Items)
             {
                 if (item.Selected)
                 {
-                    int i = AttrCheckBoxList2.Items.IndexOf(item);
+                    int i = RightFDCheckBoxListAttrSelection.Items.IndexOf(item);
                     fd.AddRight(attrList[i]);
                 }
             }
@@ -139,14 +151,14 @@ namespace BCNF_Web_App
             fdList.Add(fd);
             loadListBox(lboxFD,1);
 
-            AttrCheckBoxList1.ClearSelection();
-            AttrCheckBoxList2.ClearSelection();
+            LeftFDCheckBoxListAttrSelection.ClearSelection();
+            RightFDCheckBoxListAttrSelection.ClearSelection();
 
             msg += "\nNew FD inserted.";
             log.InnerText = msg;
         }
 
-        protected void deleteAttr(object sender, EventArgs e)
+        protected void btnDeleteAttrClick(object sender, EventArgs e)
         {
             int index = lboxAttr.SelectedIndex;
             attrList.RemoveAt(index);
@@ -154,7 +166,7 @@ namespace BCNF_Web_App
             loadListBox(lboxAttr,0);
         }
 
-        protected void deleteFD(object sender, EventArgs e)
+        protected void btnDeleteFDClick(object sender, EventArgs e)
         {
             int index = lboxFD.SelectedIndex;
             fdList.RemoveAt(index);
@@ -162,15 +174,15 @@ namespace BCNF_Web_App
             loadListBox(lboxFD, 1);
         }
 
-        protected void CalculateClosure(object sender, EventArgs e)
+        protected void btnCalculateClosureClick(object sender, EventArgs e)
         {
             List<Attr> attrListSelected = new List<Attr>();
 
-            foreach (ListItem item in EglismosCheckBoxList.Items)
+            foreach (ListItem item in ClosureCheckBoxList.Items)
             {
                 if (item.Selected)
                 {
-                    int index = EglismosCheckBoxList.Items.IndexOf(item);
+                    int index = ClosureCheckBoxList.Items.IndexOf(item);
                     attrListSelected.Add(attrList[index]);
                 }
             }
@@ -180,7 +192,7 @@ namespace BCNF_Web_App
             log.InnerText = msg;
         }
 
-        protected void CalculateKeys(object sender, EventArgs e)
+        protected void btnCalculateKeysClick(object sender, EventArgs e)
         {
             Closure closure = new Closure(attrList, fdList);
             List<Key> keyList = new List<Key>();
@@ -197,56 +209,71 @@ namespace BCNF_Web_App
             log.InnerText = msg;
         }
 
+        /// <summary>
+        /// Φορτώνονται τα γνωρίσματα στις Λίστες επιλογής για δημιουργία FD και και επιλογή για αναζήτηση Εγκλεισμού.
+        /// </summary>
         protected void updateCheckBoxLists()
         {
-            AttrCheckBoxList1.Items.Clear();
-            AttrCheckBoxList2.Items.Clear();
-            EglismosCheckBoxList.Items.Clear();
+            // TODO: Αλλαγή τρόπου για αποδοτικότητα.
+            LeftFDCheckBoxListAttrSelection.Items.Clear(); 
+            RightFDCheckBoxListAttrSelection.Items.Clear();
+            ClosureCheckBoxList.Items.Clear();
 
             foreach (Attr attr in attrList)
             {
-                AttrCheckBoxList1.Items.Add(attr.Name);
-                AttrCheckBoxList2.Items.Add(attr.Name);
-                EglismosCheckBoxList.Items.Add(attr.Name);
+                LeftFDCheckBoxListAttrSelection.Items.Add(attr.Name);
+                RightFDCheckBoxListAttrSelection.Items.Add(attr.Name);
+                ClosureCheckBoxList.Items.Add(attr.Name);
             }
         }
 
+        /// <summary>
+        /// Φορτώνονται τα αντικείμενα στις αντίστοιχες λίστες και εμφανίζονται στα panel.
+        /// </summary>
+        /// <param name="lbox">Η λίστα στην οποία θα προστεθούν αντικείμενα με βάση το i.</param>
+        /// <param name="i">0 προσθέτει γνωρίσματα και 1 συναρτησιακές εξαρτήσεις.</param>
         protected void loadListBox(ListBox lbox, int i)
         {
+            // TODO: Αλλαγή λειτουργίας για πιο αποδοτικό τρόπο ενημέρωσης της λίστας.
             lbox.Items.Clear();
             if (i == 0)
-            {
-                foreach (Attr attr in attrList)
+                 foreach (Attr attr in attrList)
                 {
                     lbox.Items.Add(attr.Name);
                 }
-            }
             else if (i == 1)
-            {
                 foreach (FD fd in fdList)
                 {
                     lbox.Items.Add(fd.ToString());
                 }
-            }
             
         }
 
+        /// <summary>
+        /// Φορτώνει την DropDownList με τα ονόματα των έτοιμων παραδειγμάτων.
+        /// </summary>
+        /// <param name="schemasForLoad">Λίστα με string ονόματα των παραδειγμάτων.</param>
         protected void loadSchemsDropDownList(List<string> schemasForLoad)
         {
             foreach (string schema in schemasForLoad)
-            {
-                schemaLoadDropDownList.Items.Add(schema);
-            }
+                schemaLoadDropDownList.Items.Add(schema);   
         }
 
-        protected void loadSchemasInApplication(object sender, EventArgs e)
+        /// <summary>
+        /// Ελέγχεται ποιό παράδειγμα επιλέχθηκε και φορτώνεται το αντίστοιχο.
+        /// </summary>
+        protected void btnLoadSelectedSchemaClick(object sender, EventArgs e)
         {
-            int index = schemaLoadDropDownList.SelectedIndex;
+            // TODO: Αλλαγή τρόπου. Πρέπει να φορτώνεται και να διαβάζεται από αρχείο ώστε να είναι ποιο αποδοτικό.
+            // TODO: Πρέπει να προστεθεί δυνατότητα φόρτωσης από αρχείο του client.
+            int index = schemaLoadDropDownList.SelectedIndex; 
             attrList.Clear();
             fdList.Clear();
 
+            #region switch-case για έτοιμο παράδειγμα.
             switch (index)
             {
+                #region case 0 --> f.nor
                 case 0: // f.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -271,6 +298,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+                
+                #region case 1 --> sc_StockExchange.nor
                 case 1: // sc_StockExchange.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -302,6 +332,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 2 --> sc1_01.nor
                 case 2: // sc1_01.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -327,6 +360,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 3 --> sc1_02.nor
                 case 3: // sc1_02.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -352,6 +388,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 4 --> sc1_A1.nor
                 case 4: // sc1_A1.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -381,6 +420,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 5 --> sc1_A2.nor
                 case 5: // sc1_A2.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -408,6 +450,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 6 --> sc2_01.nor
                 case 6: // sc2_01.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -434,6 +479,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 7 --> sc2_02.nor
                 case 7: // sc2_02.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -460,6 +508,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 8 --> sc2_03.nor
                 case 8: // sc2_03.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -484,6 +535,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 9 --> sc2_04.nor
                 case 9: // sc2_04.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -508,6 +562,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 10 --> sc2_05.nor
                 case 10: // sc2_05.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -535,6 +592,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 11 --> sc3.nor
                 case 11: // sc3.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -565,6 +625,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 12 --> ΖΑΧΑΡΟΠΛΑΣΤΕΙΟ.nor
                 case 12: // ΖΑΧΑΡΟΠΛΑΣΤΕΙΟ.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -593,6 +656,9 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region case 13 --> ΙΑΤΡΕΙΟ.nor
                 case 13: // ΙΑΤΡΕΙΟ.nor
                     for (int j = 0; j < 1; j++)
                     {
@@ -618,13 +684,18 @@ namespace BCNF_Web_App
                         loadListBox(lboxAttr, 0); loadListBox(lboxFD, 1); updateCheckBoxLists();
                     }
                     break;
+                #endregion
+
+                #region default
                 default:
                     msg = "Προέκυψε κάποιο σφάλμα...";
                     log.InnerText = msg;
-                    
-                    
+                                        
                     break;
+               #endregion
             }
+            #endregion
+
         }
 
         protected void SchemaLoaderMethod(string[] attrNames)
@@ -656,7 +727,7 @@ namespace BCNF_Web_App
         {
             foreach (Attr attr in attrList)
             {
-                EglismosCheckBoxList.Items.Add(attr.Name);
+                ClosureCheckBoxList.Items.Add(attr.Name);
             }
         }
 

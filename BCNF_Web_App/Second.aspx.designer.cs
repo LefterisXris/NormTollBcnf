@@ -31,13 +31,13 @@ namespace BCNF_Web_App {
         protected global::System.Web.UI.WebControls.Label lblSchemaName;
         
         /// <summary>
-        /// EglismosCheckBoxList control.
+        /// ClosureCheckBoxList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList EglismosCheckBoxList;
+        protected global::System.Web.UI.WebControls.CheckBoxList ClosureCheckBoxList;
         
         /// <summary>
         /// Button4 control.
@@ -121,22 +121,22 @@ namespace BCNF_Web_App {
         protected global::System.Web.UI.WebControls.Button Button3;
         
         /// <summary>
-        /// AttrCheckBoxList1 control.
+        /// LeftFDCheckBoxListAttrSelection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList AttrCheckBoxList1;
+        protected global::System.Web.UI.WebControls.CheckBoxList LeftFDCheckBoxListAttrSelection;
         
         /// <summary>
-        /// AttrCheckBoxList2 control.
+        /// RightFDCheckBoxListAttrSelection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList AttrCheckBoxList2;
+        protected global::System.Web.UI.WebControls.CheckBoxList RightFDCheckBoxListAttrSelection;
         
         /// <summary>
         /// Button1 control.

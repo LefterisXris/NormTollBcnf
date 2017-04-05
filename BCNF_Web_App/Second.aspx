@@ -14,25 +14,22 @@
 <body>
     <form id="form1" runat="server">
     <div class="container">
-        <div class ="page-header">
+
+        <%-- HEADER (τίτλο, όνομα κλπ) --%>
+        <div class ="page-header">  <%--TODO: Στην δημιουργία σχήματος να περνάς το όνομα εδώ στο label --%>
             <h1> Νέο σχήμα: <asp:Label ID="lblSchemaName" runat="server" Text=""></asp:Label> <small> γνωρίσματα κια συναρτησιακές εξαρτήσεις. </small> </h1>
         </div>
 
-        <div class="row">
-            <%--Εγκλεισμός--%>
+        <%-- ROW με Επιλογές Ενεργειών --%>
+        <div class="row"> 
+
+            <%--Εγκλεισμός (Επιλογή)--%>
             <div class="col-md-3"> 
-                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalEglismos" >Εγκλεισμός</button>
+                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalEglismos">Εγκλεισμός</button>
 
                 <!-- Modal εγκλεισμός-->
                   <div class="modal fade" id="modalEglismos" role="dialog">
                     <div class="modal-dialog">
-    
-                      <!-- Modal content-->
-                        <!-- To modal αυτό θα πρέπει να έχει τα εξής: 
-                            όνομα αρχείου, 
-                            περιγραφή (προεραιτική),
-                            δυνατότητα προσθήκης γνωρισμάτων (και διαγραφή, τροποποίηση κλπ.),
-                            δυνατότητα προσθήκης συναρτησιακών εξαρτήσεων (και διαγραφή, τροποποίηση κλπ.). -->
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -41,17 +38,17 @@
                         <div class="modal-body">
                             
                             <p>Επιλογή γνωρισμάτων</p>
-                            <asp:CheckBoxList ID="EglismosCheckBoxList" runat="server"></asp:CheckBoxList>
+                            <asp:CheckBoxList ID="ClosureCheckBoxList" runat="server"></asp:CheckBoxList>
                         </div>
                         <div class="modal-footer">
-                          <asp:Button runat="server" ID="Button4" Text="OK"  class="btn btn-default"  OnClick="CalculateClosure" UseSubmitBehavior="false" data-dismiss="modal" />
+                          <asp:Button runat="server" ID="Button4" Text="OK"  class="btn btn-default"  OnClick="btnCalculateClosureClick" UseSubmitBehavior="false" data-dismiss="modal" />
                         </div>
-                      </div>
-      
+                      </div>      
                     </div>
                   </div> <%--Modal--%>
             </div>
-            <%--Υποψήφια κλειδιά--%>
+          
+            <%--Υποψήφια κλειδιά (Επιλογή)--%>
             <div class="col-md-3">
                 <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Υποψήφια κλειδιά</button>
 
@@ -61,33 +58,38 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title">Click OK για υποψήφια κλειδιά</h4>
+                          <h4 class="modal-title">Υποψήφια κλειδιά</h4>
                         </div>
                         <div class="modal-body">
                             
-                            <p>Υποψήφια κλειδιά είναι: </p>
+                            <p>Click OK για υποψήφια κλειδιά. </p>
 
                         </div>
                         <div class="modal-footer">
-                          <asp:Button runat="server" ID="Button5" Text="OK"  class="btn btn-default" OnClick="CalculateKeys" UseSubmitBehavior="false" data-dismiss="modal" />
+                          <asp:Button runat="server" ID="Button5" Text="OK"  class="btn btn-default" OnClick="btnCalculateKeysClick" UseSubmitBehavior="false" data-dismiss="modal" />
                         </div>
-                      </div>
-      
+                      </div>      
                     </div>
                   </div> <%--Modal--%>
             </div>
-            <%--Διάσπαση BCNF--%>
-            <div class="col-md-3">
+            
+            <%--Διάσπαση BCNF (Επιλογή)--%>
+            <div class="col-md-3"> <%--TODO: Υλοποίηση--%>
                 <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Διάσπαση BCNF</button>
             </div>
-            <%--Σταδιακή διάσπαση BCNF--%>
-            <div class="col-md-3">
+        
+            <%--Σταδιακή διάσπαση BCNF (Επιλογή)--%>
+            <div class="col-md-3"> <%--TODO: Υλοποίηση--%>
                 <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Σταδιακή διάσπαση BCNF</button>
             </div>
             
         </div>
+        
         <br />
+
+        <%-- ROW με panel Γνωρισμάτων και Συναρτησιακών εξαρτήσεων. --%>
         <div class="row">
+
             <%--Γνωρίσματα--%>
             <div class="col-md-6">
                 <p> Γνωρίσματα </p>
@@ -95,19 +97,12 @@
                 <asp:ListBox ID="lboxAttr" runat="server" Rows="10" Width="100%"></asp:ListBox>
                 <div style="text-align: right; width: 100%;">
                     <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalNewAttribute">+</button>
-                    <asp:Button  class="btn btn-info btn-lg" ID="Button2" runat="server" Text="-" OnClick="deleteAttr" />
+                    <asp:Button  class="btn btn-info btn-lg" ID="Button2" runat="server" Text="-" OnClick="btnDeleteAttrClick" />
                 </div>
 
                 <!-- Modal νέο γνώρισμα-->
                   <div class="modal fade" id="modalNewAttribute" role="dialog">
                     <div class="modal-dialog">
-    
-                      <!-- Modal content-->
-                        <!-- To modal αυτό θα πρέπει να έχει τα εξής: 
-                            όνομα αρχείου, 
-                            περιγραφή (προεραιτική),
-                            δυνατότητα προσθήκης γνωρισμάτων (και διαγραφή, τροποποίηση κλπ.),
-                            δυνατότητα προσθήκης συναρτησιακών εξαρτήσεων (και διαγραφή, τροποποίηση κλπ.). -->
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -123,8 +118,7 @@
                         <div class="modal-footer">
                           <asp:Button runat="server" ID="btnSaveImage" Text="OK"  class="btn btn-default"  OnClick="btnNewAttrClick" UseSubmitBehavior="false" data-dismiss="modal" />
                         </div>
-                      </div>
-      
+                      </div>      
                     </div>
                   </div> <%--Modal--%>
 
@@ -138,19 +132,12 @@
 
                 <div style="text-align: right; width: 100%;">
                     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalNewFD">+</button>
-                    <asp:Button class="btn btn-info btn-lg" ID="Button3" runat="server" Text="-" OnClick="deleteFD" />        
+                    <asp:Button class="btn btn-info btn-lg" ID="Button3" runat="server" Text="-" OnClick="btnDeleteFDClick" />        
                 </div>
 
                  <!-- Modal νέα συναρτησιακή εξάρτηση-->
                   <div class="modal fade" id="modalNewFD" role="dialog">
                     <div class="modal-dialog">
-    
-                      <!-- Modal content-->
-                        <!-- To modal αυτό θα πρέπει να έχει τα εξής: 
-                            όνομα αρχείου, 
-                            περιγραφή (προεραιτική),
-                            δυνατότητα προσθήκης γνωρισμάτων (και διαγραφή, τροποποίηση κλπ.),
-                            δυνατότητα προσθήκης συναρτησιακών εξαρτήσεων (και διαγραφή, τροποποίηση κλπ.). -->
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -162,63 +149,69 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <p>Ορίζουσες</p>
-                                    <asp:CheckBoxList ID="AttrCheckBoxList1" runat="server"></asp:CheckBoxList>
+                                    <asp:CheckBoxList ID="LeftFDCheckBoxListAttrSelection" runat="server"></asp:CheckBoxList>
                                     
                                 </div>
                                 <div class="col-md-4">
                                     <p>Εξαρτημένες</p>
-                                    <asp:CheckBoxList ID="AttrCheckBoxList2" runat="server"></asp:CheckBoxList>
+                                    <asp:CheckBoxList ID="RightFDCheckBoxListAttrSelection" runat="server"></asp:CheckBoxList>
                                 </div>
                             </div>
-                            <div class="row">
-                                <p>Τελική μορφή συναρτησιακής εξάρτησης</p>
-                                
+                            <div class="row"> <%-- TODO: για διαγραφή λογικά, εκτός κι αν δουλέψει κάπως. --%>
+                                <p>Τελική μορφή συναρτησιακής εξάρτησης</p>                                
                             </div>
                         </div>
                         <div class="modal-footer">
                           <asp:Button runat="server" ID="Button1" Text="OK"  class="btn btn-default"  OnClick="btnNewFDClick" UseSubmitBehavior="false" data-dismiss="modal" />
                         </div>
-                      </div>
-      
+                      </div>      
                     </div>
-                  </div>
+                  </div> <%--Modal--%>
 
             </div>
+
         </div>
         
+        <%-- ROW με Logging Console και Load Button --%>
         <div class="row">
+
+            <%-- Logging Console --%>
             <div class="col-md-6">
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <textarea runat="server" id="log" cols="40" rows="20"></textarea>
             </div>
+
+            <%-- Load Button --%>
             <div class="col-md-6"><button type="button"  class="btn btn-success btn-lg" data-toggle="modal" data-target="#loadSchema">Φόρτωση Σχήματος</button>
                 <br /><br /><br />
+
                 <!-- Modal φόρτωση σχήματος-->
                 <div class="modal fade" id="loadSchema" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Load</h4>
-                    </div>
-                    <div class="modal-body">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Load</h4>
+                            </div>
+                            <div class="modal-body">
                             
-                        <%--<p>Επιλέξτε αρχείο </p>
-                        <asp:FileUpload ID="FileUpload1" runat="server" />--%>
-                        <p>Επιλέξτε παράδειγμα για φόρτωση</p>
-                        <asp:DropDownList ID="schemaLoadDropDownList" runat="server"></asp:DropDownList>
+                                <%--<p>Επιλέξτε αρχείο </p>
+                                <asp:FileUpload ID="FileUpload1" runat="server" />--%>
+                                <p>Επιλέξτε παράδειγμα για φόρτωση</p>
+                                <asp:DropDownList ID="schemaLoadDropDownList" runat="server"></asp:DropDownList>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="btnLoadSelectedSchemaClick" UseSubmitBehavior="false" data-dismiss="modal" />
+                            </div>
+                        </div>     
                     </div>
-                    <div class="modal-footer">
-                        <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="loadSchemasInApplication" UseSubmitBehavior="false" data-dismiss="modal" />
-                    </div>
-                    </div>
-      
-                </div>
-                </div> <%--Modal--%>                              
+                </div> <%--Modal--%>   
+                                           
             </div>
+            
+            <%-- // TODO: Προσθήκη δυνατότητας αποθήκευσης σχήματος σε αρχείο στον client. --%>
                         
         </div>
-
         
     </div>
     
