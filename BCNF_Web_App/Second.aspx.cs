@@ -107,6 +107,7 @@ namespace BCNF_Web_App
             ViewState.Add("loadSchemasVS", schemasForLoad);
         }
 
+        #region ADD NEW
         /// <summary>
         /// Καλείται όταν πατηθεί το ΟΚ από το Modal Γνωρίσματος.
         /// </summary>
@@ -114,12 +115,18 @@ namespace BCNF_Web_App
         {
             // Δημιουργείται ένα γνώρισμα με όνομα και τύπο που δόθηκε.
             // TODO: Διαγραφή?  attrList.Add(new Attr(tbxNewAttrName.Text.Trim(),tbxNewAttrType.Text.Trim()));
-            AttrCreate(tbxNewAttrName.Text.Trim(), tbxNewAttrType.Text.Trim());
-            loadListBox(lboxAttr, 0);
-            // TODO: Διαγραφή?  tbxNewAttrName.Text = "";
-            updateCheckBoxLists();
+            if (AttrCreate(tbxNewAttrName.Text.Trim(), tbxNewAttrType.Text.Trim()))
+            {
+                loadListBox(lboxAttr, 0);
+                // TODO: Διαγραφή?  tbxNewAttrName.Text = "";
+                updateCheckBoxLists();
+                msg += "\nNew attribute inserted.";
+            }
+            else
+            {
+                msg += "\nCannot create attribute: Attribute already exists..";
+            }
 
-            msg += "\nNew attribute inserted.";
             log.InnerText = msg;
         }
 
@@ -130,34 +137,103 @@ namespace BCNF_Web_App
         {
             FD fd = new FD();
             
+            // Προστίθενται τα γνωρίσματα για το αριστερό σκέλος.
             foreach (ListItem item in LeftFDCheckBoxListAttrSelection.Items)
-            {
                 if (item.Selected)
                 {
                     int i = LeftFDCheckBoxListAttrSelection.Items.IndexOf(item);
                     fd.AddLeft(attrList[i]);
                 }
-            }
 
+            // Προστίθενται τα γνωρίσματα για το δεξί σκέλος.
             foreach (ListItem item in RightFDCheckBoxListAttrSelection.Items)
-            {
                 if (item.Selected)
                 {
                     int i = RightFDCheckBoxListAttrSelection.Items.IndexOf(item);
                     fd.AddRight(attrList[i]);
                 }
+            
+            // Αν μπορεί να δημιουργηθεί η συναρτησιακή εξάρτηση καλώς.
+            if (FDCreate(fd))
+            {
+                loadListBox(lboxFD, 1);
+                msg += "\nNew FD inserted.";
             }
-
-            fdList.Add(fd);
-            loadListBox(lboxFD,1);
-
+            else
+            {
+                msg += "\nCannot insert FD: FD already exists.";
+            }
+            //TODO: Διαγραφή ? fdList.Add(fd);
+            
             LeftFDCheckBoxListAttrSelection.ClearSelection();
             RightFDCheckBoxListAttrSelection.ClearSelection();
-
-            msg += "\nNew FD inserted.";
+       
             log.InnerText = msg;
         }
 
+        /// <summary>
+        /// Μέθοδος δημιουργίας νέου γνωρίσματος και προσθήκης του στην attrList. Επιστρέφει false αν το όνομα χρησιμοποιείται ήδη για άλλο αντικείμενο
+        /// </summary>
+        /// <param name="name">Ονομασία του γνωρίσματος</param>
+        /// <param name="type">Τύπος του γνωρίσματος</param>
+        protected bool AttrCreate(string name, string type)
+        {
+            //ελέγχεται αν το όνομα του νέου γνωρίσματος χρησιμοποιείται ήδη, κι αν ναι, επιστρέφεται η ένδειξη false
+            if (AttrExists(name, null)) return false;
+
+            //δημιουργείται αντικείμενο τύπου Attr και προστίθεται στην attrList
+            Attr attr = new Attr(name, type);
+            attrList.Add(attr);
+
+            //επιστρέφεται η ένδειξη true
+            return true;
+        }
+
+        /// <summary>
+        /// Ελέγχει και επιστρέφει true αν το όνομα name χρησιμοποιείται ήδη για άλλο γνώρισμα
+        /// </summary>
+        /// <param name="name">Η ονομασία του γνωρίσματος που ελέγχουμε</param>
+        /// <param name="attr">Η αναφορά στο αντικείμενο του γνωρίσματος</param>
+        public bool AttrExists(string name, Attr attr)
+        {
+            for (int i = 0; i < attrList.Count; i++)
+                if (attrList[i].Name == name && attr != attrList[i]) return true; //το όνομα χρησιμοποιείται ήδη
+            return false; //το όνομα δεν χρησιμοποιείται
+        }
+
+        /// <summary>
+        /// Μέθοδος ελέγχου και προσθήκης νέας συναρτησιακής εξάρτησης στην FDList
+        /// </summary>
+        /// <param name="fd">Το αντικείμενο συναρτησιακής εξάρτησης fd θα ελεγχθεί αν υπάρχει κάποιο άλλο παρόμοιο με αυτό πριν καταχωρηθεί.</param>
+        public bool FDCreate(FD fd)
+        {
+            //ελέγχεται αν η νέα συναρτησιακή εξάρτηση είναι παρόμοια με μια άλλη, κι αν ναι, επιστρέφεται η ένδειξη false
+            if (FDExists(fd, -1)) return false;
+
+            //το νέο αντικείμενο προστίθεται στην FDList
+            fdList.Add(fd);
+
+            //επιστρέφεται η ένδειξη true
+            return true;
+        }
+
+        /// <summary>
+        /// Ελέγχει και επιστρέφει true αν υπάρχει παρόμοια συναρτησιακή εξάρτηση
+        /// </summary>
+        /// <param name="fd">Το αντικείμενο της συναρτησιακής εξάρτησης που ελέγχουμε</param>
+        /// <param name="id">Ο αύξοντας αριθμός της υπό επεξεργασία συναρτησιακής εξάρτησης</param>
+        public bool FDExists(FD fd, int id)
+        {
+            for (int i = 0; i < fdList.Count; i++)
+                if (fdList[i].ToString() == fd.ToString() && i != id) return true; //βρέθηκε παρόμοια συναρτησιακή εξάρτηση
+            return false; //δεν υπάρχει παρόμοια συναρτησιακή εξάρτηση
+        }
+        #endregion
+
+        #region DELETE
+        /// <summary>
+        /// Διαγράφει το επιλεγμένο γνώρισμα από την λίστα γνωρισμάτων.
+        /// </summary>
         protected void btnDeleteAttrClick(object sender, EventArgs e)
         {
             int index = lboxAttr.SelectedIndex;
@@ -166,6 +242,9 @@ namespace BCNF_Web_App
             loadListBox(lboxAttr,0);
         }
 
+        /// <summary>
+        /// Διαγράφει την επιλεγμένη συναρτησιακή εξάρτηση από την λίστα.
+        /// </summary>
         protected void btnDeleteFDClick(object sender, EventArgs e)
         {
             int index = lboxFD.SelectedIndex;
@@ -173,42 +252,53 @@ namespace BCNF_Web_App
 
             loadListBox(lboxFD, 1);
         }
+        #endregion
 
+        #region ACTIONS
+        /// <summary>
+        /// Υπολογίζει τον εγλεισμό των επιλεγμένων γνωρισμάτων.
+        /// </summary>
         protected void btnCalculateClosureClick(object sender, EventArgs e)
         {
             List<Attr> attrListSelected = new List<Attr>();
 
+            // Τα επιλεγμένα γνωρίσματα εισάγωνται στην λίστα attrListSelected.
             foreach (ListItem item in ClosureCheckBoxList.Items)
-            {
                 if (item.Selected)
                 {
                     int index = ClosureCheckBoxList.Items.IndexOf(item);
                     attrListSelected.Add(attrList[index]);
                 }
-            }
 
+            // Δημιουργείται αντικείμενο της κλάσης Closure όπου καλείται η μέθοδος υπολογισμού του εγκλεισμού.
+            // TODO: Πρέπει να γίνει κάπως αλλιώς. Πιο αποδοτικά.
             Closure closure = new Closure(attrList, fdList);
             msg = closure.btnOK_Click(attrListSelected);
             log.InnerText = msg;
         }
 
+        /// <summary>
+        /// Υπολογίζει τα υποψήφια κλειδιά του σχήματος.
+        /// </summary>
         protected void btnCalculateKeysClick(object sender, EventArgs e)
         {
             Closure closure = new Closure(attrList, fdList);
             List<Key> keyList = new List<Key>();
+
+            // Τα υποψήφια κλειδιά υπολογίζονται στην μέθοδο KeysGet().
             keyList = closure.KeysGet(fdList, attrList, true);
 
             msg = "";
             msg += "Υποψήφια κλειδιά Που βρέθηκαν: \n";
 
             foreach (Key key in keyList)
-            {
                 msg += key.ToString() + "\n";
-            }
-
+            
             log.InnerText = msg;
         }
+        #endregion
 
+        #region UPDATE CONTENT
         /// <summary>
         /// Φορτώνονται τα γνωρίσματα στις Λίστες επιλογής για δημιουργία FD και και επιλογή για αναζήτηση Εγκλεισμού.
         /// </summary>
@@ -234,20 +324,25 @@ namespace BCNF_Web_App
         /// <param name="i">0 προσθέτει γνωρίσματα και 1 συναρτησιακές εξαρτήσεις.</param>
         protected void loadListBox(ListBox lbox, int i)
         {
-            // TODO: Αλλαγή λειτουργίας για πιο αποδοτικό τρόπο ενημέρωσης της λίστας.
-            lbox.Items.Clear();
-            if (i == 0)
-                 foreach (Attr attr in attrList)
-                {
-                    lbox.Items.Add(attr.Name);
-                }
-            else if (i == 1)
-                foreach (FD fd in fdList)
-                {
-                    lbox.Items.Add(fd.ToString());
-                }
-            
+            if (lbox != null)
+            {           
+                // TODO: Αλλαγή λειτουργίας για πιο αποδοτικό τρόπο ενημέρωσης της λίστας.
+                lbox.Items.Clear();
+                if (i == 0)
+                     foreach (Attr attr in attrList)
+                    {
+                        lbox.Items.Add(attr.Name);
+                    }
+                else if (i == 1)
+                    foreach (FD fd in fdList)
+                    {
+                        lbox.Items.Add(fd.ToString());
+                    }
+            }
         }
+        #endregion
+
+
 
         /// <summary>
         /// Φορτώνει την DropDownList με τα ονόματα των έτοιμων παραδειγμάτων.
@@ -723,6 +818,7 @@ namespace BCNF_Web_App
             loadListBox(lboxFD, 1);*/
         }
 
+        // TODO: Διαγραφή ?
         protected void loadbbb(object sender, EventArgs e)
         {
             foreach (Attr attr in attrList)
@@ -731,6 +827,7 @@ namespace BCNF_Web_App
             }
         }
 
+        // TODO: Υλοποίηση.
         protected void UploadFile(object sender, EventArgs e)
         {
           /*  String uriString = "ftp://localhost/Files";
@@ -749,62 +846,20 @@ namespace BCNF_Web_App
             log.InnerText = msg;*/
         }
 
-        /// <summary>
-        /// Μέθοδος δημιουργίας νέου γνωρίσματος και προσθήκης του στην attrList. Επιστρέφει false αν το όνομα χρησιμοποιείται ήδη για άλλο αντικείμενο
-        /// </summary>
-        /// <param name="name">Ονομασία του γνωρίσματος</param>
-        /// <param name="type">Τύπος του γνωρίσματος</param>
-        protected bool AttrCreate(string name, string type)
+        protected void btnNewSchemaClick(object sender, EventArgs e)
         {
-            //ελέγχεται αν το όνομα του νέου γνωρίσματος χρησιμοποιείται ήδη, κι αν ναι, επιστρέφεται η ένδειξη false
-            if (AttrExists(name, null)) return false;
+           lblSchemaName.Text = tbxNewSchemaName.Text.Trim();
 
-            //δημιουργείται αντικείμενο τύπου Attr και προστίθεται στην attrList
-            Attr attr = new Attr(name, type);
-            attrList.Add(attr);
+            attrList.Clear();
+            fdList.Clear();
+            msg = "";
+            log.InnerText = msg;
 
-            //επιστρέφεται η ένδειξη true
-            return true;
+            loadListBox(null, 0);
+            loadListBox(null, 1);
+
+            updateCheckBoxLists();
         }
 
-        /// <summary>
-        /// Ελέγχει και επιστρέφει true αν το όνομα name χρησιμοποιείται ήδη για άλλο γνώρισμα
-        /// </summary>
-        /// <param name="name">Η ονομασία του γνωρίσματος που ελέγχουμε</param>
-        /// <param name="attr">Η αναφορά στο αντικείμενο του γνωρίσματος</param>
-        public bool AttrExists(string name, Attr attr)
-        {
-            for (int i = 0; i < attrList.Count; i++)
-                if (attrList[i].Name == name && attr != attrList[i]) return true; //το όνομα χρησιμοποιείται ήδη
-            return false; //το όνομα δεν χρησιμοποιείται
-        }
-
-        /// <summary>
-        /// Μέθοδος ελέγχου και προσθήκης νέας συναρτησιακής εξάρτησης στην FDList
-        /// </summary>
-        /// <param name="fd">Το αντικείμενο συναρτησιακής εξάρτησης fd θα ελεγχθεί αν υπάρχει κάποιο άλλο παρόμοιο με αυτό πριν καταχωρηθεί.</param>
-        public bool FDCreate(FD fd)
-        {
-            //ελέγχεται αν η νέα συναρτησιακή εξάρτηση είναι παρόμοια με μια άλλη, κι αν ναι, επιστρέφεται η ένδειξη false
-            if (FDExists(fd, -1)) return false;
-
-            //το νέο αντικείμενο προστίθεται στην FDList
-            fdList.Add(fd);
-
-            //επιστρέφεται η ένδειξη true
-            return true;
-        }
-
-        /// <summary>
-        /// Ελέγχει και επιστρέφει true αν υπάρχει παρόμοια συναρτησιακή εξάρτηση
-        /// </summary>
-        /// <param name="fd">Το αντικείμενο της συναρτησιακής εξάρτησης που ελέγχουμε</param>
-        /// <param name="id">Ο αύξοντας αριθμός της υπό επεξεργασία συναρτησιακής εξάρτησης</param>
-        public bool FDExists(FD fd, int id)
-        {
-            for (int i = 0; i < fdList.Count; i++)
-                if (fdList[i].ToString() == fd.ToString() && i != id) return true; //βρέθηκε παρόμοια συναρτησιακή εξάρτηση
-            return false; //δεν υπάρχει παρόμοια συναρτησιακή εξάρτηση
-        }
     }
 }

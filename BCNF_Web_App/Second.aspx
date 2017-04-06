@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>BCNF</title>
@@ -182,31 +183,58 @@
             </div>
 
             <%-- Load Button --%>
-            <div class="col-md-6"><button type="button"  class="btn btn-success btn-lg" data-toggle="modal" data-target="#loadSchema">Φόρτωση Σχήματος</button>
-                <br /><br /><br />
+            <div class="col-md-6">
+                <div>
+                    <button type="button"  class="btn btn-success btn-lg" data-toggle="modal" data-target="#modalNew">Νέο Σχήμα</button>
 
-                <!-- Modal φόρτωση σχήματος-->
-                <div class="modal fade" id="loadSchema" role="dialog">
+                    <!-- Modal νέο σχήμα-->
+                  <div class="modal fade" id="modalNew" role="dialog">
                     <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Load</h4>
-                            </div>
-                            <div class="modal-body">
                             
-                                <%--<p>Επιλέξτε αρχείο </p>
-                                <asp:FileUpload ID="FileUpload1" runat="server" />--%>
-                                <p>Επιλέξτε παράδειγμα για φόρτωση</p>
-                                <asp:DropDownList ID="schemaLoadDropDownList" runat="server"></asp:DropDownList>
-                            </div>
-                            <div class="modal-footer">
-                                <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="btnLoadSelectedSchemaClick" UseSubmitBehavior="false" data-dismiss="modal" />
-                            </div>
-                        </div>     
+                      <!-- Modal content-->                      
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Νέο σχήμα</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Εισάγετε όνομα για το νέο σχήμα.</p>
+                            <asp:TextBox ID="tbxNewSchemaName" runat="server" placeholder="Όνομα σχήματος"></asp:TextBox>
+                        </div>
+                        <div class="modal-footer">
+                          <asp:Button runat="server" ID="Button7" Text="Δημιουργία"  class="btn btn-default"  OnClick="btnNewSchemaClick" UseSubmitBehavior="false" data-dismiss="modal" />
+                        </div>
+                      </div>      
                     </div>
-                </div> <%--Modal--%>   
-                                           
+                  </div> <%--Modal--%> 
+
+                </div>
+                <div>                
+                    <button type="button"  class="btn btn-success btn-lg" data-toggle="modal" data-target="#loadSchema">Φόρτωση Σχήματος</button>
+                    <br /><br /><br />
+
+                    <!-- Modal φόρτωση σχήματος-->
+                    <div class="modal fade" id="loadSchema" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Load</h4>
+                                </div>
+                                <div class="modal-body">
+                            
+                                    <%--<p>Επιλέξτε αρχείο </p>
+                                    <asp:FileUpload ID="FileUpload1" runat="server" />--%>
+                                    <p>Επιλέξτε παράδειγμα για φόρτωση</p>
+                                    <asp:DropDownList ID="schemaLoadDropDownList" runat="server"></asp:DropDownList>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:Button runat="server" ID="Button6" Text="OK"  class="btn btn-default" OnClick="btnLoadSelectedSchemaClick" UseSubmitBehavior="false" data-dismiss="modal" />
+                                </div>
+                            </div>     
+                        </div>
+                    </div> <%--Modal--%>   
+                </div>                           
             </div>
             
             <%-- // TODO: Προσθήκη δυνατότητας αποθήκευσης σχήματος σε αρχείο στον client. --%>
