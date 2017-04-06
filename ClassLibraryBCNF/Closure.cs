@@ -29,6 +29,8 @@ namespace Normalization
             this.attrList = attrList;
             this.FDList = FDList;
 
+            
+            
             //καταχωρούνται στον πίνακα bin το πλήθος των ψηφίων 1 στο δυαδικό σύστημα για κάθε αριθμό
             //η μεταβλητή str αναπαριστά δυαδικό αριθμό, ξεκινώντας από το 0 μέχρι το μέγιστο δυνητικό συνδυασμό, που είναι το 2 υψωμένο στο μέγιστο επιτρεπόμενο πλήθος των γνωρισμάτων
             string str;
@@ -42,6 +44,7 @@ namespace Normalization
                 bin.Add((byte)str.Replace("0", "").Length);
             }
         }
+
 
         public List<Attr> attrClosure(List<Attr> attrS, List<FD> fdListS, bool showOut)
         {

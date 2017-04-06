@@ -181,6 +181,8 @@ namespace BCNF_Web_App
             //ελέγχεται αν το όνομα του νέου γνωρίσματος χρησιμοποιείται ήδη, κι αν ναι, επιστρέφεται η ένδειξη false
             if (AttrExists(name, null)) return false;
 
+            // ελέγχεται αν δεν έχει όνομα.
+            if (name.Equals("")) return false;
             //δημιουργείται αντικείμενο τύπου Attr και προστίθεται στην attrList
             Attr attr = new Attr(name, type);
             attrList.Add(attr);
@@ -791,6 +793,7 @@ namespace BCNF_Web_App
             }
             #endregion
 
+            lblSchemaName.Text = schemasForLoad[index];
         }
 
         protected void SchemaLoaderMethod(string[] attrNames)
