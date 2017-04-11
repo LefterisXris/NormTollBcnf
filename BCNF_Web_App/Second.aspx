@@ -76,7 +76,28 @@
             
             <%--Διάσπαση BCNF (Επιλογή)--%>
             <div class="col-md-3"> <%--TODO: Υλοποίηση--%>
-                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalKeys">Διάσπαση BCNF</button>
+                <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalDecompose">Διάσπαση BCNF</button>
+                
+                <!-- Modal Διάσπαση BCNF-->
+                  <div class="modal fade" id="modalDecompose" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Διάσπαση BCNF</h4>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <p>Click OK για Διάσπαση BCNF. </p>
+
+                        </div>
+                        <div class="modal-footer">
+                          <asp:Button runat="server" ID="Button8" Text="OK"  class="btn btn-default" OnClick="btnDecomposeClick" UseSubmitBehavior="false" data-dismiss="modal" />
+                        </div>
+                      </div>      
+                    </div>
+                  </div> <%--Modal--%>
+
             </div>
         
             <%--Σταδιακή διάσπαση BCNF (Επιλογή)--%>

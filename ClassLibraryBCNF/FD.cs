@@ -108,7 +108,7 @@ namespace Normalization
         public void AddLeft(Attr attr)
         {
             // ελέγχεται αν το γνώρισμα υπάρχει ήδη στα αριστερά, κι αν όχι, τότε προστίθεται.
-            if (!GetLeft().Contains(attr))
+            if (!GetLeft().Contains(attr, new AttrComparer()))
             {
                 Left.Add(attr);
                 Trivial();
@@ -131,7 +131,7 @@ namespace Normalization
         public void AddRight(Attr attr)
         {
             // ελέγχεται αν το γνώρισμα υπάρχει ήδη στα δεξιά, κι αν όχι, τότε προστίθεται.
-            if (!GetRight().Contains(attr))
+            if (!GetRight().Contains(attr, new AttrComparer()))
             {
                 Right.Add(attr);
                 Trivial();
@@ -153,7 +153,7 @@ namespace Normalization
         /// </summary>
         public void RemoveRight(List<Attr> attrList)
         {
-            Right = Right.Except(attrList).ToList();
+            Right = Right.Except(attrList, new AttrComparer()).ToList();
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Normalization
         /// <returns></returns>
         public List<Attr> GetAll()
         {
-            return Left.Concat(Right).Except(Right.Intersect(Left)).ToList();
+            return Left.Concat(Right).Except(Right.Intersect(Left, new AttrComparer()), new AttrComparer()).ToList();
         }
 
         /// <summary>

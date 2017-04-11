@@ -19,6 +19,7 @@ namespace Normalization
 
 
 
+
         /// <summary>
         /// Κατασκευαστής της Closure που υπολογίζει τον εγκλεισμό των γνωρισμάτων.
         /// </summary>
@@ -29,8 +30,6 @@ namespace Normalization
             this.attrList = attrList;
             this.FDList = FDList;
 
-            
-            
             //καταχωρούνται στον πίνακα bin το πλήθος των ψηφίων 1 στο δυαδικό σύστημα για κάθε αριθμό
             //η μεταβλητή str αναπαριστά δυαδικό αριθμό, ξεκινώντας από το 0 μέχρι το μέγιστο δυνητικό συνδυασμό, που είναι το 2 υψωμένο στο μέγιστο επιτρεπόμενο πλήθος των γνωρισμάτων
             string str;
@@ -154,6 +153,7 @@ namespace Normalization
                 {
                     List<Key> tempList = new List<Key>();
                     tempList = KeysGet(FDList, attrList, false);
+                   
                     Key tempKey = new Key();
 
                     foreach (Key key in tempList)
@@ -186,7 +186,7 @@ namespace Normalization
         /// <param name="newAttrList">Η λίστα των γνωρισμάτων μέσα στα οποία θα αναζητηθούν τα κλειδιά</param>
         /// <param name="showOut">Προσδιορίζει αν τα αποτελέσματα θα φανούν στην οθόνη</param>
         /// <returns></returns>
-        public List<Key> KeysGet (List<FD> FDList, List<Attr> newAttrList, bool showOut)
+        public List<Key> KeysGet(List<FD> FDList, List<Attr> newAttrList, bool showOut)
         {
             //δημιουργείται πίνακας με τα υποψήφια κλειδιά του σχήματος
             List<Key> keyList = new List<Key>();
@@ -246,7 +246,10 @@ namespace Normalization
             return keyList;
         }
 
-
+        /// <summary>
+        /// Επιστρέφει πίνακα με όλους τους συνδυασμούς γνωρισμάτων ανά k
+        /// </summary>
+        /// <param name="k">Το επιθυμητό πλήθος των γνωρισμάτων ανά συνδυασμό</param>
         private void AttrBinarySelection(List<FD> FDList, List<Attr> newAttrList, ref List<Key> keyList, int k, string s, bool showOut)
         {
             string sBin = "";
@@ -338,13 +341,13 @@ namespace Normalization
 
                 }
                 i++;
-            } 
+            }
         }
 
         /// <summary>
         /// Επιστρέφει την πραγοντική τιμή του x.
         /// </summary>
-        private static int Factorial (ulong x)
+        private static int Factorial(ulong x)
         {
             ulong total = 1;
             for (ulong i = 1; i <= x; i++)
@@ -353,6 +356,10 @@ namespace Normalization
             }
             return (int)total;
         }
+
+
+
+
 
     }
 }

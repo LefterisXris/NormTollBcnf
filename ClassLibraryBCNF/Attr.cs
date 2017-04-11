@@ -66,7 +66,7 @@ namespace Normalization
     /// Custom συγκριτής για τα αντικείμενα της κλάσσης Attr. 
     /// Χρησιμοποιείται για την Intersect.
     /// </summary>
-    class AttrComparer : IEqualityComparer<Attr>
+    public class AttrComparer : IEqualityComparer<Attr>
     {
 
         // Δύο αντικείμενα της κλάσης Attr είναι ίσα αν έχουν το ίδιο όνομα.
@@ -92,16 +92,17 @@ namespace Normalization
         // τότε η GetHashCode() θα πρέπει να επιστρέψει την ίδια τιμή για αυτά τα δύο αντικείμενα.
         public int GetHashCode(Attr attr)
         {
-            // Έλεγχος αν το αντικείμενο είναι null.
-            if (Object.ReferenceEquals(attr, null))
-            {
-                return 0;
-            }
+            /*  // Έλεγχος αν το αντικείμενο είναι null.
+              if (Object.ReferenceEquals(attr, null))
+              {
+                  return 0;
+              }
 
-            // Υπολογισμός hash code για το όνομα του αντικειμένου, αν αυτό ΔΕΝ είναι null.
-            int hashAttrName = attr.Name == null ? 0 : attr.Name.GetHashCode();
+              // Υπολογισμός hash code για το όνομα του αντικειμένου, αν αυτό ΔΕΝ είναι null.
+              int hashAttrName = attr.Name == null ? 0 : attr.Name.GetHashCode();
 
-            return hashAttrName;
+              return hashAttrName;*/
+            return 0;
         }
     }
 }
