@@ -69,13 +69,13 @@ namespace Normalization
             {
                 
                 //ελέγχεται με την τομή αν τα γνωρίσματα του αριστερού σκέλους της συναρτησιακής εξάρτησης περιλαμβάνονται στον ως τώρα εγκλεισμό
-                if (fd.GetLeft().Intersect(closure, new AttrComparer()).Count() >= fd.GetLeft().Count)
+                if (fd.GetLeft().Intersect(closure, Global.comparer).Count() >= fd.GetLeft().Count)
                 { 
                     //αν ναι, τότε προστίθενται τα γνωρίσματα του δεξιού σκέλους στην συναρτησιακή εξάρτηση, με την προϋπόθεση να μην έχουν ήδη προστεθεί, κι αν αυτό γίνει τότε η διαδικασία αρχίζει ξανά από την RepeatLoop
                     List<Attr> toAdd = new List<Attr>();
                     foreach (Attr attR in fd.GetRight())
                     {
-                        if (!closure.Contains(attR, new AttrComparer()))
+                        if (!closure.Contains(attR, Global.comparer))
                         {
                             anyFDUsed = true;
                             toAdd.Add(attR);
@@ -158,7 +158,7 @@ namespace Normalization
 
                     foreach (Key key in tempList)
                     {
-                        if (attrS2.Count > key.GetAttrs().Count() && key.GetAttrs().Count == key.GetAttrs().Intersect(attrS2, new AttrComparer()).Count())
+                        if (attrS2.Count > key.GetAttrs().Count() && key.GetAttrs().Count == key.GetAttrs().Intersect(attrS2, Global.comparer).Count())
                         {
                             superkey = true;
                             tempKey = key;
@@ -202,7 +202,7 @@ namespace Normalization
             {
                 attr.Exclude = true;
                 foreach (FD fd in FDList)
-                    if (fd.GetLeft().Contains(attr, new AttrComparer()))
+                    if (fd.GetLeft().Contains(attr, Global.comparer))
                         attr.Exclude = false;
 
                 //για να οριστικοποιηθεί ο αποκλεισμός του γνωρίσματος, πρέπει να μην συμμετέχει όμως και σε κανένα δεξί
@@ -215,7 +215,7 @@ namespace Normalization
                         attrAll.AddRange(fd.GetRight());
 
                     //αν το γνώρισμα attr υπάρχει στην τοπική λίστα με τα γνωρίσματα των δεξιών σκελών, ο αποκλεισμός του γνωρίσματος αίρεται
-                    if (attrAll.Contains(attr, new AttrComparer()))
+                    if (attrAll.Contains(attr, Global.comparer))
                         attr.Exclude = true;
                     else
                         attr.Exclude = false;
@@ -282,7 +282,7 @@ namespace Normalization
                     FD newfd = new FD();
                     newfd.AddLeft(fd.GetLeft());
                     newfd.AddRight(attr);
-                    if (newfd.GetAll().Intersect(newAttrList, new AttrComparer()).Count() == newfd.GetAll().Count)
+                    if (newfd.GetAll().Intersect(newAttrList, Global.comparer).Count() == newfd.GetAll().Count)
                     {
                         tempFDList.Add(newfd);
                     }
@@ -328,7 +328,7 @@ namespace Normalization
                     {
                         //επίσης ελέγχεται αν ο εγκλεισμός του νέου κλειδιού περιλαμβάνει όλα τα γνωρίσματα του σχήματος, κι αν ναι, τότε προστίθεται στη λίστα των υποψήφιων κλειδιών
                         Closure frm = new Closure(key.GetAttrs(), tempFDList);
-                        if (frm.attrClosure(key.GetAttrs(), FDList, false).Intersect(newAttrList, new AttrComparer()).Count() == newAttrList.Count)
+                        if (frm.attrClosure(key.GetAttrs(), FDList, false).Intersect(newAttrList, Global.comparer).Count() == newAttrList.Count)
                         {
                             keyList.Add(key);
 

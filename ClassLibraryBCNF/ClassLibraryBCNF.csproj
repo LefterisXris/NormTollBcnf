@@ -44,6 +44,7 @@
     <Compile Include="Closure.cs" />
     <Compile Include="FD.cs" />
     <Compile Include="FRMMAIN.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Key.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

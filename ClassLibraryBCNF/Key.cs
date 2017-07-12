@@ -29,7 +29,7 @@ namespace Normalization
         {
             // ελέγχεται αν τα κλειδιά υπάρχουν ήδη στον πίνακα, κι αν όχι, προστίθενται.
             foreach (Attr attr in list)
-                if (!keyAttrs.Contains(attr, new AttrComparer()))
+                if (!keyAttrs.Contains(attr, Global.comparer))
                     AddToKey(attr);
         }
 
@@ -48,7 +48,7 @@ namespace Normalization
         {
             foreach (Key keysearch in keyList)
             {
-                if (keysearch.GetAttrs().Intersect(keyAttrs, new AttrComparer()).Count() >= keysearch.GetAttrs().Count)
+                if (keysearch.GetAttrs().Intersect(keyAttrs, Global.comparer).Count() >= keysearch.GetAttrs().Count)
                 {
                     return true;
                 }

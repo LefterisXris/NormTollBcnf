@@ -367,7 +367,7 @@ namespace BCNF_Web_App
             // ο έλεγχος γίνεται με τη βοήθεια της τομής.
             foreach (FD fd in fdList)
                 foreach (Key key in keyList)
-                    if (!fd.Excluded && fd.GetLeft().Intersect(key.GetAttrs(), new AttrComparer()).Count() >= key.GetAttrs().Count)
+                    if (!fd.Excluded && fd.GetLeft().Intersect(key.GetAttrs(), Global.comparer).Count() >= key.GetAttrs().Count)
                     {
                         fd.Excluded = true;
                         break;
@@ -383,7 +383,7 @@ namespace BCNF_Web_App
                         continue;
                     int x = 0;
                     foreach (Attr attr in fdList[i].GetRight())
-                        if (fdList[j].GetLeft().Contains(attr, new AttrComparer()))
+                        if (fdList[j].GetLeft().Contains(attr, Global.comparer))
                             x++;
                     if (x >= fdList[j].GetLeft().Count)
                     {
@@ -430,7 +430,7 @@ namespace BCNF_Web_App
                         if (fd.Excluded)
                             continue;
                         //αν η τομή x του συνόλου των γνωρισμάτων της συναρτησιακής εξάρτησης και των γνωρισμάτων του πίνακα είναι μικρότερη σε αριθμό από το πλήθος των γνωρισμάτων του πίνακα και ίση με το πλήθος των γνωρισμάτων της συναρτησιακής εξάρτησης, τότε παραβιάζεται η BCNF μορφή και ο πίνακας μπορεί να διασπαστεί
-                        int x = fd.GetAll().Intersect(RelList[i].GetList(), new AttrComparer()).Count();
+                        int x = fd.GetAll().Intersect(RelList[i].GetList(), Global.comparer).Count();
                         if (x < RelList[i].GetList().Count && x == fd.GetAll().Count)
                         {
                             //παρακάτω δημιουργούνται δύο νέοι πίνακες, ο rel1 και ο rel2
@@ -441,7 +441,7 @@ namespace BCNF_Web_App
                             //ο rel2 πίνακας παίρνει τα γνωρίσματα από το αριστερό σκέλος της συναρτησιακής εξάρτησης, συν τα γνωρίσματα του πίνακα που διασπάστηκε, πλην αυτών που βρίσκονται στο δεξί σκέλος της συναρτησιακής εξάρτησης
                             List<Attr> temp = new List<Attr>();
                             temp.AddRange(fd.GetLeft());
-                            temp.AddRange(RelList[i].GetList().Except(fd.GetRight(), new AttrComparer()));
+                            temp.AddRange(RelList[i].GetList().Except(fd.GetRight(), Global.comparer));
                             Relation rel2 = new Relation(temp);
 
                             //δημιουργούνται δύο κλειδιά, ένα για τον καθένα πίνακα
